@@ -1,0 +1,12 @@
+POST http://localhost:3003/api/crags
+Content-Type: application/json
+
+{
+"name":"Acuto (Placche di Pila Rocca)",
+"vie" :[{"name":"Via delle streghe","grade":"6b"},{"name":"Carlo 2011","grade":"6a+"},{"name":"Piglio 98","grade":"6b"},{"name":"Aurora team","grade":"6a+"},{"name":"I fiuggiaschi","grade":"6b"},{"name":"Linea Gullich","grade":"6c+"},{"name":"L'araba fenicia","grade":"7b"},{"name":"Non stop","grade":"6c+"},{"name":"Stop and go!!!","grade":"7a"},{"name":"Capravirus","grade":"5c+"}, {"name":"Cucuruccuccu L1","grade":"5c"},{"name":"Paloma L1+L2","grade":"6b"},{"name":"Pulce (ar)rapata","grade":"6c"},{"name":"Pulce pelosa","grade":"5c"},{"name":"Svaso ribelle","grade":"7a+"},{"name":"Polvere e sudore","grade":"7b+"}],
+"esposizione":"sud",
+"region":"lazio",
+"provincia":"frosinone",
+"parkingGPS":"",
+"locationGPS":[]
+}

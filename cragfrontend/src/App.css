@@ -1,0 +1,53 @@
+.App {
+  text-align: center;
+}
+
+.UserBox {
+  display: flex;
+  position: absolute;
+  left: calc(50vw - 15vw);
+  width: 30vw;
+  flex-flow: wrap row;
+  margin: auto;
+  border: solid 3px cornflowerblue;
+  border-radius: 15px;
+  box-shadow: 5px 5px 100px 1px rgba(0, 0, 0, 0.528);
+  flex-flow: row;
+}
+.UserBox .UserForm {
+
+  flex: auto;
+}
+
+.UserForm input{
+  margin: 1vh;
+}
+.Region{
+
+}
+.Region h1{
+  font-size: 3rem;
+  color: rgb(138, 136, 136);
+}
+.FavRegion h1{
+  color: black;
+  font-size: 3rem;
+}
+
+.Region:hover,.FavRegion:hover{
+  font-size: 3.5rem;
+  border: 1px solid rgb(92, 90, 90);
+}
+
+.RegionsBox {
+  border: 1px solid rgb(26, 26, 26);
+  width: 60vw;
+  margin: auto;
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: none;
+  
+}
+ 
+
