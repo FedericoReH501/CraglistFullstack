@@ -1,6 +1,6 @@
 import {useState} from 'react'
 
-const allRegions = ['Abruzzo','Basilicata','Calabria','Campania','Emilia','Friuli','Lazio','Liguria', 'Lombardia','Marche','Molise','Piemonte','Puglia', 'Sardegna','Sicilia','Toscana','Trentino','Umbrbia',"Val d'Aosta"]
+const allRegions = ['Abruzzo','Basilicata','Calabria','Campania','Emilia Romagna','Friuli venezia giulia','Lazio','Liguria', 'Lombardia','Marche','Molise','Piemonte','Puglia', 'Sardegna','Sicilia','Toscana','Trentino alto adige','Umbria',"Val d'Aosta"]
 
 const Regions = ({findCrags,user,updateFavs})=>{
   
@@ -38,10 +38,10 @@ const Regions = ({findCrags,user,updateFavs})=>{
             <div key={region}>
               <div 
                 className={className(favourite)} 
-                onClick={()=>findCrags('lazio')} 
+                 
               >
-                <h1>{region}</h1>
-              
+                <h1 >{region}</h1>
+                <button onClick={()=>findCrags(region)}> findcrags</button>
               </div>
               <button onClick={()=>handleFav(region)}>
                 {

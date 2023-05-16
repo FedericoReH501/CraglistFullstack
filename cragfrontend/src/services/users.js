@@ -16,4 +16,5 @@ const updateFavs= async(user,regions)=>{
   return response
 }
 
+
 export default {updateFavs,setToken}

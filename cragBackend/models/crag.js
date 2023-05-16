@@ -3,12 +3,14 @@ const mongoose = require('mongoose')
 const cragSchema = mongoose.Schema({
   name: String,
   region: String,
-  provincia:String,
-  comune: String,
-  vie:[],
+  sectors:[],
+  access:String,
   exposition: String,
-  parkingGps:[],
-  locationGps:[],
+  kind:String,
+  parkingGps:{type:String,
+              default:'diocan'},
+  locationGps:String,
+
 })
 
 cragSchema.set('toJSON', {

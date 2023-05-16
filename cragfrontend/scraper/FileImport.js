@@ -1,5 +1,14 @@
 import axios from 'axios'
-
+function Crag(name, region, provincia, sectors) {
+  this.name = name;
+  this.region = region;
+  this.provincia = provincia;
+  this.sectors=sectors
+  this.exposition=''
+  this.parkingGps=[]
+  this.locationGps=[]
+}
+const craglist=[]
 
 const FileImport = ()=>{
     
@@ -51,50 +60,57 @@ const FileImport = ()=>{
             })
             
           }
-
-          console.log('Crag Name: ',cragName)
-          console.log('Regione: ',region)
-          console.log('Provincia: ',provincia)
-          console.log('Lista Vie:')
-          vieList.forEach(v=>console.log(v))
-          console.log('---------------------------------------------------------------')
-          console.log('---------------------------------------------------------------')
-          
-        
+          const cragObj = new Crag(cragName,region,provincia,vieList)
+          craglist.push(cragObj)
+          console.log('new obj created: ',cragName)
+          console.log('lenght:',craglist.length)
+          console.log('------------------------------------')
         }
-        //console.log('cragsraw:')
-        //cragsRaw.forEach(c=>console.log('Crag Name:',c.textContent,', Regione:',region, ', Provincia:',provincia,', Link:',c.href))
-        // posso avere per ogni crag la sua regione e provincia
-       // console.log('-------')
       }
+    }
+  console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++')
+  console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++')
+  console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++')
+  console.log('TERMINATE')
+  console.log('CragList:')
+  window.localStorage.setItem('cragList',JSON.stringify(craglist))
+  console.log(craglist)
+  }
+  
+  const hasSector = (name)=>{
+    const array= name.split('(')
+    if(array.length > 1){
+      return true
+    }
+    return false
+  } 
+  
 
+  const cragsRefactorer = (craglist)=>{
       
-
+    for (let index = 0; index < craglist.length; index++) {
+      const element = craglist[index]
+      const name = element.name
+      if(hasSector(name)){
+        const array = name.split('(')
+        const lastItem = array.length-1
+        array[lastItem] = array[lastItem].replace(')','')
+        const cragName= array[0]
+        const sectorName = array[lastItem]
+      }
+      else{
+        return
+      }
       
     }
-
-    
-    
-
-    
   }
-
+  
   return(
-
-    
     <div>
       <form onSubmit={(e)=>download(e)}>
-        <input 
-      type='file' 
-      id='fileUpload' 
-      name='file'
-      accept='.xls,.xlsx'
-     // onChange={(e)=> handleFile(e)}
-      >
-      </input>
-      <button type='submit' id='uploadExcell'>upload</button>
-      <button>convert</button>
-      <pre id='jsonData'></pre>
+      <button type='submit' id='uploadExcell'>Ruba da ClimbBook</button>
+      <button>Ruba da Falesia.it</button>
+      <button>upload</button>
       </form>
       
     </div>
