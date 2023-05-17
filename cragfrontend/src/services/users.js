@@ -8,11 +8,12 @@ const setToken = (newtoken) => {
 }
 
 const updateFavs= async(user,regions)=>{
-  
+  console.log('user services')
   const confing = {
     headers:{Authorization: token,}
   }
   const response = await axios.put(`${baseUrl}/favs/${user.id}`,{favRegions:regions},confing)
+  console.log('response:',response)
   return response
 }
 

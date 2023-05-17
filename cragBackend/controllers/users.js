@@ -35,11 +35,9 @@ usersRouter.post('/', async (request, response)=>{
 
 usersRouter.put('/favs/:id',userExtractor ,async (request,response)=>{
   userId = request.user
-  console.log('put router:',userId)
 
 const result = await User.findByIdAndUpdate(userId,request.body,{new:true})
-console.log('favs region:',request.body)
-console.log('result:', result)
+
 return response.status(204).end()  
 })
 
