@@ -1,7 +1,9 @@
+import { useSelector } from "react-redux"
 const allRegions = ['Abruzzo','Basilicata','Calabria','Campania','Emilia Romagna','Friuli venezia giulia','Lazio','Liguria', 'Lombardia','Marche','Molise','Piemonte','Puglia', 'Sardegna','Sicilia','Toscana','Trentino alto adige','Umbria',"Val d'Aosta"]
 
 const Regions = ({findCrags,favRegions,handleFav})=>{
-  
+  const user = useSelector(state=>state)
+  console.log('REGIONS user:',user)
   const regions = favRegions===[] 
                   ? allRegions
                   :[...favRegions.sort(), ...allRegions.filter(r => !favRegions.includes(r))]
@@ -15,7 +17,7 @@ const Regions = ({findCrags,favRegions,handleFav})=>{
       return false
     }
   }
-  console.log('Regions favourite:',favRegions)
+  
   return(
     <div>
        {regions.map(region=>

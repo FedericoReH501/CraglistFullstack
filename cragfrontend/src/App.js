@@ -3,7 +3,7 @@ import LoginForm from './components/LoginForm'
 import loginService from './services/login'
 import cragsService from './services/crags'
 import usersServices from './services/users'
-
+import { useDispatch,useSelector } from 'react-redux'
 import {useState,useEffect,} from 'react'
 import {Routes,Route,Link,useNavigate} from 'react-router-dom'
 import {useQuery,useMutation} from 'react-query'
@@ -12,14 +12,15 @@ import Regions from './components/Regions'
 
 
 function App() {
-  const [user, setuser] = useState(null)
+  const user = useSelector(state=>state)
+  const dispatch = useDispatch()
   const [favRegions, setfavRegions] = useState([])
   const navigate = useNavigate()
   
   useEffect(()=>{
     const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser')) 
     if(loggedUser){
-      setuser(loggedUser)
+      dispatch({type:'SET_USER',payload:loggedUser})
       setfavRegions(loggedUser.favsRegions)
       usersServices.setToken(loggedUser.token)
     }
@@ -38,7 +39,7 @@ function App() {
     try{
       const response = await loginService.login(credentials)
       window.localStorage.setItem('loggedUser',JSON.stringify(response))
-      setuser(response)
+      dispatch({type:'SET_USER',payload:response})
       setfavRegions(response.favsRegions)
       navigate('/')
     }catch(e){ console.error(e.response.data)}
@@ -46,7 +47,7 @@ function App() {
 
   const logOut = ()=>{
     window.localStorage.removeItem('loggedUser')
-    setuser(null)
+    dispatch({type:'SET_USER',payload:null})
   }
 
   const findCrags =async  (region)=>{
@@ -83,9 +84,8 @@ function App() {
    
     await updateFavs(user,newFavs)
     window.localStorage.setItem('loggedUser',JSON.stringify(updateduser))
-    setuser(updateduser)
+    dispatch({type:'SET_USER',payload:updateduser})
     }
-  console.log('app user favs and favs',user,favRegions)
   return (
     <div className="App">
       
