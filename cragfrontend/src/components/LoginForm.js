@@ -1,8 +1,21 @@
 import {useState} from 'react'
+import loginService from '../services/login'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
-const LoginForm = ({logUser})=>{
+const LoginForm = ()=>{
   const [username, setusername] = useState('')
   const [password, setpassword] = useState('')
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const logUser = async (credentials)=>{
+    try{
+      const response = await loginService.login(credentials)
+      window.localStorage.setItem('loggedUser',JSON.stringify(response))
+      dispatch({type:'SET_USER',payload:response})
+      navigate('/')
+    }catch(e){ console.error(e.response.data)}
+  }
 
   const handleLogin=(event)=>{
     console.log('handle login')

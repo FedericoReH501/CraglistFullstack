@@ -1,18 +1,39 @@
 .App {
-  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+.grid-container {
+  position: fixed;
+  top: 0;
+  height: 15vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  z-index: 100;
+  background-color: white;
+  gap: 0;
 }
 
-.UserBox {
-  display: flex;
-  position: absolute;
-  left: calc(50vw - 15vw);
-  width: 30vw;
-  flex-flow: wrap row;
+.logo{
+  
+}
+.links {
   margin: auto;
-  border: solid 3px cornflowerblue;
-  border-radius: 15px;
-  box-shadow: 5px 5px 100px 1px rgba(0, 0, 0, 0.528);
-  flex-flow: row;
+ 
+}
+.userHead{
+  margin: auto;
+  margin-right: 0;
+  
+  text-align: right;
+}
+.LogBox {
+  margin: auto;
+  margin-top: 30vh;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
 }
 .UserBox .UserForm {
 
@@ -23,34 +44,154 @@
   margin: 1vh;
 }
 /* Regions */
-.Region {
-
-  justify-content: center;
-  display: flex;
+.Region {  
   font-size: 3rem;
   color: rgb(138, 136, 136);
 }
-.FavRegion {
+.FavsRegion {
+  
   color: black;
   font-size: 3rem;
   justify-content: center;
-  display: flex;
+  
 }
 
-.Region span:hover,.FavRegion span:hover{
+.Region span:hover,.FavsRegion span:hover{
   font-size: 3.5rem;
   
 }
 
 .RegionsBox {
-  border: 1px solid rgb(26, 26, 26);
-  width: 60vw;
+  padding-top: 20vh;
+  width: 80vw;
   margin: auto;
   margin-top: 50px;
+  gap: 40px;
+  
+  row-gap: 40px;
   display: grid;
   grid-template-columns: auto auto auto;
   grid-template-rows: none;
   
 }
- 
+.selectedRegion{
+  background-color: white;
+  text-align: center;
+  position: fixed;
+  width: 100vw;
+  height: 10vh;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  
+  top:15vh;
+  border: 0;
+  
+}
+/*FILTER*/
+.filter{
+  box-shadow: rgba(0, 0, 0, 0.19) 0px -10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  padding: 7vh;
+  background-color: white;
+  height: auto;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.filterbox{
+  background-color: white;
+  bottom: 0;
+ margin: auto;
+  width: 50%;
+  display: grid;
+  grid-template-areas: 'slider slider '
+                        'min max'
+  ;
+}
+.range{
+  grid-area: slider;
+}
+.minlabel{
+  grid-area: min;
+}
+.maxlabel{
+  
+  text-align: right;
+  grid-area: max;
+}
+.slider {
+  position: relative;
+  width: 800px;
+}
+
+.slider__track,
+.slider__range {
+  border-radius: 3px;
+  height: 5px;
+  position: absolute;
+}
+
+.slider__track {
+  background-color: #ced4da;
+  width: 100%;
+  z-index: 1;
+}
+
+.slider__range {
+  background-color: #9fe5e1;
+  z-index: 2;
+}
+
+/* Removing the default appearance */
+.thumb,
+.thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.thumb {
+  pointer-events: none;
+  position: absolute;
+  height: 0;
+  width: 800px;
+  outline: none;
+}
+
+/* For Chrome browsers */
+.thumb::-webkit-slider-thumb {
+  background-color: #1c9fe1;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 1px 1px #ced4da;
+  cursor: pointer;
+  height: 18px;
+  width: 18px;
+  margin-top: 4px;
+  pointer-events: all;
+  position: relative;
+}
+
+/* For Firefox browsers */
+.thumb::-moz-range-thumb {
+  background-color: #f1f5f7;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 1px 1px #ced4da;
+  cursor: pointer;
+  height: 18px;
+  width: 18px;
+  margin-top: 4px;
+  pointer-events: all;
+  position: relative;
+}
+.zindex-3{
+  z-index: 3;
+}
+.zindex-4{
+  z-index: 4;
+}
+.zindex-5{
+  z-index: 5;
+}
+
+
+
 
