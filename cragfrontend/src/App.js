@@ -1,106 +1,68 @@
 import './App.css'
 import LoginForm from './components/LoginForm'
-import loginService from './services/login'
-import cragsService from './services/crags'
-import usersServices from './services/users'
-import { useDispatch,useSelector } from 'react-redux'
-import {useState,useEffect,} from 'react'
-import {Routes,Route,Link,useNavigate} from 'react-router-dom'
-import {useQuery,useMutation} from 'react-query'
 import Header from './components/Header'
 import Regions from './components/Regions'
+import Crags from './components/Crags'
+import Filter from './components/Filter'
 
+import cragsService from './services/crags'
+import usersServices from './services/users'
+
+import { useDispatch,useSelector } from 'react-redux'
+import {useEffect,} from 'react'
+import { useQuery } from 'react-query'
+import {Routes,Route,Link} from 'react-router-dom'
 
 function App() {
-  const user = useSelector(state=>state)
+  const user = useSelector(state=>state.user)
   const dispatch = useDispatch()
-  const [favRegions, setfavRegions] = useState([])
-  const navigate = useNavigate()
   
+  const result = useQuery('crags',cragsService.getAll,{refetchOnWindowFocus: false,onSuccess:(result)=>{
+    dispatch({type:'SET_CRAGS',payload:result.data})
+
+    window.localStorage.setItem('cragsList',JSON.stringify(result.data))
+  }})
+
   useEffect(()=>{
     const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser')) 
+    const cragsList = JSON.parse(window.localStorage.getItem('cragsList'))
     if(loggedUser){
       dispatch({type:'SET_USER',payload:loggedUser})
-      setfavRegions(loggedUser.favsRegions)
       usersServices.setToken(loggedUser.token)
     }
-  },[])
-
-  //const result = useQuery('crags',cragsService.getAll,{
-    //false
-  //})
-  /*if ( result.isLoading ) {
-      return <div>loading data...</div>
-    }*/
+    if(cragsList){
+      dispatch({type:'SET_CRAGS',payload:cragsList})
+    }
+    else{
+      if ( result.isLoading ) {
+        return <div>loading data...</div>
+      }
+    }
+  },[dispatch])
 
   
-  
-  const logUser = async (credentials)=>{
-    try{
-      const response = await loginService.login(credentials)
-      window.localStorage.setItem('loggedUser',JSON.stringify(response))
-      dispatch({type:'SET_USER',payload:response})
-      setfavRegions(response.favsRegions)
-      navigate('/')
-    }catch(e){ console.error(e.response.data)}
-  }
 
   const logOut = ()=>{
     window.localStorage.removeItem('loggedUser')
     dispatch({type:'SET_USER',payload:null})
   }
-
-  const findCrags =async  (region)=>{
-    const cragList = await cragsService.getByRegion(region)
-    console.log('findCrags')
-    window.localStorage.setItem('filteredcraglist',JSON.stringify(cragList))
+  JSON.parse(window.localStorage.getItem('cragsList')).forEach(c=>{
+     console.log('name:',c.name)
+    console.log('expos:',c.exposition)
+    console.log('-----------------------------------')
   }
-
-  const updateFavs = async(regions,user)=>{
-    console.log('updatefavsfav')
-    const response = await usersServices.updateFavs(regions,user)
-  }
-  const isFavourite = (region)=>{
-    if(favRegions.includes(region))
-    return true
-    else{
-      return false
-    }
-  }
-  const handleFav =async (region)=>{
-    
-    let newFavs=[]
-    if(!isFavourite(region)){
-      console.log('make favourite')
-      newFavs = favRegions.concat(region)
-       setfavRegions( newFavs)
-      }
-    else{
-      console.log('remve from favourites')
-      newFavs = favRegions.filter(r=> r !== region)
-      setfavRegions(newFavs)
-    }
-    const updateduser = {...user,favsRegions:newFavs}
    
-    await updateFavs(user,newFavs)
-    window.localStorage.setItem('loggedUser',JSON.stringify(updateduser))
-    dispatch({type:'SET_USER',payload:updateduser})
-    }
+    )
   return (
     <div className="App">
-      
-    <Header user={user} logOut={logOut}><Link to='/login'>LOGIN</Link></Header>
-              
+    <Header user={user} logOut={logOut}>
+      <Link to='/'>HOME </Link>
+      <Link to='/login'> LOGIN</Link>
+    </Header>        
      <Routes>
-          <Route path='/' element={
-            <Regions 
-              handleFav={handleFav}
-              favRegions={favRegions}
-              findCrags={findCrags}
-            />}>
-            
-          </Route>
-          <Route path={'/login'} element={<LoginForm logUser={logUser} />}></Route>
+          <Route path='/' element={<Regions> <Crags/><Filter/></Regions>}></Route>
+          <Route path='/login' element={<LoginForm/>}></Route>
+          
       </Routes>
      
     </div>
