@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'api/users'
+const baseUrl = 'api/user'
 let token = null
 
 
@@ -8,11 +8,13 @@ const setToken = (newtoken) => {
 }
 
 const updateFavs= async(user,regions)=>{
-  console.log('user services')
+  
+  setToken(user.token)
   const confing = {
     headers:{Authorization: token,}
   }
-  const response = await axios.put(`${baseUrl}/favs/${user.id}`,{favRegions:regions},confing)
+  const updatedUser = {...user,favsRegions:regions}
+  const response = await axios.put(`${baseUrl}/${user.id}`,updatedUser,confing)
   console.log('response:',response)
   return response
 }

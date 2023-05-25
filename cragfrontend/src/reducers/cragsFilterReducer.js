@@ -1,26 +1,25 @@
-const fullGradeRangeGenerator = ()=>{
-  const array =[]
-  for (let i = 4; i < 10; i++) {
-    
-    array.push(`${i}a`)
-    array.push(`${i}a+`)
-    array.push(`${i}b`)
-    array.push(`${i}b+`)
-    array.push(`${i}c`)
-    array.push(`${i}c+`)
+import { createSlice } from '@reduxjs/toolkit'
+
+const initialFilter={show:false,range:[],rawRange:[0,35]}
+
+const filterSlice = createSlice({
+  name:'filter',
+  initialState:initialFilter,
+  reducers:{
+    setGradeFilter(state,action){
+      console.log('reducer!')
+      return {...state,rawRange:action.payload[0],range:action.payload[1]}
+    },
+    setRegion(state,action){
+      return {...state,region:action.payload,show:!state.show}
+    },
+    setShow(state,action){
+      console.log('change state')
+      return {...state,show:!state.show}
+    }
   }
-  return array
-}
+})
 
-const initialeFilter={show:false,region:null,range:fullGradeRangeGenerator()}
 
-const cragsFilterReducer = (state=initialeFilter,action)=>{
-  switch(action.type){
-    case 'FILTER_GRADE':
-      return {...state,range:action.payload}
-    default:
-      return state
-  }
-}
-
-export default cragsFilterReducer
+export const {setGradeFilter,setRegion,setShow} = filterSlice.actions
+export default filterSlice.reducer

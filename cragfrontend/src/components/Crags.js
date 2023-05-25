@@ -1,99 +1,117 @@
 import { useSelector } from "react-redux"
-const numVie = (crag)=>{
-  return null
-}
-const gradeRange = (crag)=>{
-  return null
-}
+import { Box,Slide, Checkbox,List,Paper,Grow, Typography, TableHead, TableRow ,TableCell, TableContainer,Table, TableBody, Button} from "@mui/material"
+import { useNavigate,useParams } from "react-router-dom"
+import LikeButton from './LikeButton'
 
 const Crags = (props)=>{
-  const state = useSelector(state=> state.crags)
+  const params = useParams()
+  
+  const cragsList = [...useSelector(({crags})=> {
+    if(params.region){
+      return crags.cragsList.filter(crag => crag.region === params.region.toUpperCase())
+    }
+      return crags.cragsList
+    })]
+  const user = useSelector(state=>state.user)
+  console.log('user:',user)
+  const navigate = useNavigate()
   const filter = useSelector(state=> state.filter)
-  const cragsList = state.cragsList.filter(crag=> crag.region === state.region.toUpperCase())
   
   const requestedRange = filter.range
   
-  const allGradeGenerator =(crag)=>{
-    const allGrade=[]
-    crag.sectors.forEach(sector=>
-      sector.vie.forEach(via=>{
-        if(allGrade.includes(via.grade) || via.grade=== '' || via.grade ===' '){
-            return null
+  const gradeMatcher=(crag,requested)=>{
+    let point=0
+    let result = []
+    requested.forEach(grade=>{
+      
+        crag.sectors.forEach(sector=>
+            sector.vie.forEach(via=>{
+              
+              if(grade===via.grade){
+                  
+                  point++
+              }
+          }
+          ))
+        let object ={
+            grade: grade,
+            ammount:point
         }
-        allGrade.push(via.grade)
-        allGrade.sort()
-        })
-      )
-    return allGrade
-}
-
-const gradeListGenerator=(crag,allGrade)=>{
-  let counter=0
-  let result = []
-  allGrade.forEach(grade=>{
-      crag.sectors.forEach(sector=>
-          sector.vie.forEach(via=>{
-            if(grade===via.grade){
-                counter++
-            }
-        }
-        ))
-      let object ={
-          grade: grade,
-          ammount:counter
-      }
-      result.push(object)
-      counter=0
-  })
-  return result
-}
-
-const gradeMatcher= (requested,gradeList)=>{
-    let point = 0
-    requested.forEach(req=>{
-        gradeList.forEach(via=>{
-            if(via.grade === req){
-                point += via.ammount
-            }
-        })
+        result.push(object)
+        
     })
-    return point
-}
+    return [point,result]
+  }
 
-const pointCalculator = (crag)=>{
-  const allGrade = allGradeGenerator(crag)
-  const gradeList = gradeListGenerator(crag,allGrade)
-  return gradeMatcher(requestedRange,gradeList)
-}
+  const pointCalculator = (crag)=>{
+    return gradeMatcher(crag,requestedRange)[0]
+  }
 
-const comparer = (b,a)=>{
-  let pointa= pointCalculator(a)
-  let pointb = pointCalculator(b)
-  return pointa - pointb
-}
-function scale (number, inMin, inMax, outMin, outMax) {
-  return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
-}
-
-  if(cragsList){
-    cragsList.sort(comparer)
-    let element=-1
-    return (
-    <div style={{textAlign:'center',padding:'20vh'}}>
-      <div>
-      {cragsList.map(crag=>
-          <div key={crag.id}>
-            <p style={{fontSize:scale(pointCalculator(crag),0,100,10,20)   }}>{crag.name}{gradeRange(crag)}</p>
-          </div>
-        )}
-      </div>
-      <div>
-        {props.children}
-      </div>
-    </div>
-  )
+  const comparer = (b,a)=>{
+    let pointa= pointCalculator(a)
+    let pointb = pointCalculator(b)
+    return pointa - pointb
   }
   
+  const isFavourite = (list,element)=>{
+
+    if(list.includes(element))
+    return true
+    else{
+      return false
+    }
+  }
+  if(cragsList.length !== 0){
+    if(params.crag){
+      return(
+        <Paper>
+          <Typography variant="h5">
+            {params.crag}
+            
+          </Typography>
+        </Paper>
+      )
+    }
+    cragsList.sort(comparer)
+    return (
+      <Paper sx={{ width: '100%', overflow: 'hidden'}}  >
+        <Slide  in={true} direction="up" mountOnEnter unmountOnExit >
+          <TableContainer sx={{ maxHeight: 440 }}>
+            <Table stickyHeader>
+              <TableHead >
+                <TableRow >
+                  <TableCell> Crags</TableCell>
+                  <TableCell> Exposition</TableCell>
+                  <TableCell> Routes for You</TableCell>
+                </TableRow>
+                
+              <TableRow>
+
+              </TableRow>
+            </TableHead>
+                  <TableBody>
+                      {cragsList.map((crag)=>
+                      <TableRow key={crag.id}>
+                        <TableCell  >
+                          <Button onClick={()=>navigate(`${crag.name}`)}>
+                            {crag.name}
+                          </Button>
+                            
+                        </TableCell>
+                        <TableCell  >
+                          
+                            
+                        </TableCell>
+                        
+                      </TableRow>
+                    )}
+                  </TableBody>
+            </Table>
+          </TableContainer>
+        </Slide>
+      </Paper>
+    )
+  } 
 }
 
 export default Crags

@@ -25,9 +25,11 @@ const userSchema= mongoose.Schema(
             
         },
         region: String,
-        vieFatte:[],
-        favRegions:[],
-        favCrags:[{
+        level: String,
+        completed:[],
+        workInProg:[],
+        favsRegions:[],
+        favsCrags:[{
             type: mongoose.Schema.Types.ObjectId,
         ref: 'Falesia'
         }]

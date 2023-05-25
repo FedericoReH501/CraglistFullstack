@@ -1,79 +1,72 @@
 .App {
-  padding: 0;
-  margin: 0;
-}
-.grid-container {
-  position: fixed;
-  top: 0;
-  height: 15vh;
-  width: 100vw;
-  display: grid;
-  grid-template-columns: auto auto auto;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-  z-index: 100;
-  background-color: white;
-  gap: 0;
-}
-
-.logo{
   
 }
-.links {
-  margin: auto;
+
+.container{
+  padding: 100px;
+  padding-top: 8px;
+  font-family: 'Open Sans';
+                font-style: normal;
+                font-size: 13px;
+  background-color: hsl(200, 50%, 50%);
+  
+}
+
+.title{
+  height: 50px;
+  background-color: white;
+  border-radius: 8px;
  
 }
-.userHead{
-  margin: auto;
-  margin-right: 0;
-  
-  text-align: right;
-}
-.LogBox {
-  margin: auto;
-  margin-top: 30vh;
-  width: 100%;
-  justify-content: center;
-  text-align: center;
-}
-.UserBox .UserForm {
-
-  flex: auto;
+.footer{
+  margin:-8px;
+  margin-top: 0px;
+  background-color: rgb(27, 40, 116);
+  height: 150px;
 }
 
-.UserForm input{
-  margin: 1vh;
+.row{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
-/* Regions */
-.Region {  
-  font-size: 3rem;
-  color: rgb(138, 136, 136);
-}
-.FavsRegion {
+.side{
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+  flex: 1 1 auto ;
+  margin-right: 8px;
   
-  color: black;
-  font-size: 3rem;
-  justify-content: center;
+}
+.main{
+  border-radius: 8px;
+  flex: 4 4 auto ;
+  background-color: white;
+  
+}
+/*REGIONS*/
+
+.regionscontainer{
   
 }
 
-.Region span:hover,.FavsRegion span:hover{
-  font-size: 3.5rem;
-  
-}
-
-.RegionsBox {
-  padding-top: 20vh;
-  width: 80vw;
-  margin: auto;
-  margin-top: 50px;
-  gap: 40px;
-  
-  row-gap: 40px;
+.grid-container{
+  padding: 24px;
   display: grid;
   grid-template-columns: auto auto auto;
-  grid-template-rows: none;
+  gap: 24px;
+  align-items:flex-end;
   
 }
+.region{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid;
+  border-radius: 8px;
+  height: 72px;
+}
+
 .selectedRegion{
   background-color: white;
   text-align: center;

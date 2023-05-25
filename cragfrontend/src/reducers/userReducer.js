@@ -1,3 +1,19 @@
+import { createSlice } from "@reduxjs/toolkit"
+
+
+const userSlice = createSlice({
+  name:'user',
+  initialState:null,
+  reducers:{
+    setUser(state,action){
+      return action.payload
+    },
+    updateRegions(state,action){
+      return action.payload
+    }
+  }
+})
+
 
 const userReducer= (state=null,action)=>{
   switch(action.type){
@@ -10,5 +26,5 @@ const userReducer= (state=null,action)=>{
       return state
   }
 }
-
-export default userReducer
+export const {setUser,updateRegions} = userSlice.actions
+export default userSlice.reducer

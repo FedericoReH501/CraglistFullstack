@@ -1,4 +1,5 @@
-const showCragsReducer= (state = {show:false,region:null,cragsList:[]}, action)=>{
+import { createSlice } from "@reduxjs/toolkit"
+const showCragsReducer= (state = {cragsList:[]}, action)=>{
   switch(action.type){
     case 'SWITCH_CRAGS_VISIBILITY':
       console.log('switch state , craglist',state.cragsList)
@@ -12,4 +13,15 @@ const showCragsReducer= (state = {show:false,region:null,cragsList:[]}, action)=
       return state
   }
 }
-export default showCragsReducer
+
+const cragsSlice = createSlice({
+  name:'crags',
+  initialState:{cragsList:[]},
+  reducers:{
+    setCrags(state,action){
+      return {...state,cragsList:action.payload}
+    }
+  }
+})
+export const {setCrags} = cragsSlice.actions
+export default cragsSlice.reducer

@@ -1,20 +1,18 @@
-import { useState,useRef } from "react"
-import {useDispatch} from 'react-redux'
-var classNames = require('classnames')
+import { useState,useRef, memo, useCallback,useMemo} from "react"
+import {useDispatch,useSelector} from 'react-redux'
+import { setGradeFilter } from "../reducers/cragsFilterReducer"
+import { Box,Slide,Slider,Paper } from "@mui/material"
+import { setTest } from "../reducers/regionReducer"
 
 const Filter = ()=>{
+  const filter = useSelector(state=> state.filter)
   const dispatch = useDispatch()
-  const min =0
-  const max = 1000
-  const [minVal, setMinVal] = useState(min);
-  const [maxVal, setMaxVal] = useState(max);
-  const minValRef = useRef();
-  const maxValRef = useRef();
-  const range = useRef()
-  const fullGradeRangeGenerator = ()=>{
-    const array =[]
+  const boxRef = useRef()
+  const value = filter.rawRange
+  
+  
+  const gradeList = useMemo(()=>{const array =[]
     for (let i = 4; i < 10; i++) {
-      
       array.push(`${i}a`)
       array.push(`${i}a+`)
       array.push(`${i}b`)
@@ -23,16 +21,11 @@ const Filter = ()=>{
       array.push(`${i}c+`)
     }
     return array
-  }
-  
-  function scale (number, inMin, inMax, outMin, outMax) {
-    return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
-  }
-  const gradeList = fullGradeRangeGenerator()
-  const minGrade = gradeList[Math.round(scale(minVal,0,1000,0,35))]
-  const maxGrade = gradeList[Math.round(scale(maxVal,0,1000,0,35))]
-  
-  const filterMaker = (min,max)=>{
+  },[dispatch]) 
+
+
+  const filterMaker =  (min,max)=>{
+    
     const result = []
     let inrange = false
     for (let index = 0; index < gradeList.length; index++) {
@@ -53,55 +46,47 @@ const Filter = ()=>{
     return result
   }
   
+  
+  /*const marksGen=()=>{
+    const result = []
+    gradeList.forEach((e,i)=>{
+      const mark = {value:i,label:e}
+      result.push(mark)
+    })
+    return result
+  }
+  const marks = marksGen()*/
+  
   return(
-  <div className="filter">
-    <div className="filterbox">
-      <div className="range">
-        <input
-          className={classNames('thumb zindex-3',{'zindex-5':minVal > max - 100})}
-          type="range"
-          min={min}
-          max={max}
-          ref={minValRef}
-          value={minVal}
-          onChange={(event) => {
-            const value = Math.min(+event.target.value, maxVal - 100);
-            setMinVal(value)
-            dispatch({type:'FILTER_GRADE',payload:filterMaker(minGrade,maxGrade)})
-            event.target.value = value.toString()
-          }}
-          />
-          <input
-            className="thumb zindex-4"
-            type="range"
-            value={maxVal}
-            min={min}
-            max={max}
-            ref={maxValRef}
-            onChange={(event) => {
-              const value = Math.max(+event.target.value, minVal + 100);
-              setMaxVal(value)
-              dispatch({type:'FILTER_GRADE',payload:filterMaker(minGrade,maxGrade)})
-              event.target.value = value.toString();
-            }}
-          />
-        <div className="slider">
-          <div className="slider__track" />
-          <div ref={range} className="slider__range" />
-        </div>
-      </div>
-        <div className="minlabel">
-          <p>Min:{minGrade}</p>
+    
+      <Slide in={filter.show} direction="up" container={boxRef.current} mountOnEnter unmountOnExit >
+        <Box sx={{display:'flex',alignItems:'center',justifyContent:'center'}} component={Paper}>
+              <Box sx={{flex:'1 1 100px',maxWidth:'80%'} }>
+              <Slider
+                max={35}
+                valueLabelDisplay="on"
+                valueLabelFormat={(x)=>gradeList[x]}
+                value={value}
+                onChange={(e)=>{
+                  const range = e.target.value
+                  const minGrade = gradeList[range[0]]
+                  const maxGrade = gradeList[range[1]]
+                  dispatch(setGradeFilter([e.target.value,filterMaker(minGrade,maxGrade)]))
+                  
+                  
+                }}
+              >
+
+              </Slider>
+              </Box>
+              
+         
           
-        </div>
-        <div className="maxlabel">
-          <p>Max:{maxGrade}</p>
-        </div>
-      
+        </Box>
         
-    </div>
-  </div>
+      </Slide>
+    
   )
 }
 
-export default Filter
+export default memo(Filter)

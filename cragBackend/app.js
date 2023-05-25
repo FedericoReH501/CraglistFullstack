@@ -29,7 +29,7 @@ app.use(middleware.tokenExtractor)
 app.use('/climbook',climbookRouter)
 app.use('/falesia',falesiaRouter)
 app.use('/api/login',loginRouter)
-app.use('/api/users',usersRouter)
+app.use('/api/user',usersRouter)
 app.use('/api/crags',cragsRouter)
 
 app.use(middleware.errorHendler)

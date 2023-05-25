@@ -1,8 +1,8 @@
 import {useState} from 'react'
 import loginService from '../services/login'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-
+import { Box,TextField,Grid,CssBaseline,Paper, Button} from '@mui/material'
 const LoginForm = ()=>{
   const [username, setusername] = useState('')
   const [password, setpassword] = useState('')
@@ -18,39 +18,83 @@ const LoginForm = ()=>{
   }
 
   const handleLogin=(event)=>{
-    console.log('handle login')
-   
+    
     event.preventDefault()
     const credentials = {
       username: username,
       password:password
     }
-    console.log('credentials',credentials)
     logUser(credentials)
     setusername('')
     setpassword('')
+    
   }
 
   return(
-    <div className='LogBox'>
-        <form onSubmit={(e)=>handleLogin(e)}>
-          <input
-          type='text'
-          name='userin'
-          placeholder='Insert Username'
-          value={username}
-          onChange={(e)=> setusername(e.target.value)}
-          />
-          <input
-            type='password'
-            name='passwordin'
-            placeholder='Insert Password'
-            value={password}
-            onChange={(e)=> setpassword(e.target.value)}
-          />
-          <button type="submit">LOGIN</button>
-        </form>
-      </div>
+    <Grid container component="main" sx={{ height: '100vh' }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Box sx={{mx:4,my:8}}>
+          <Box component='form' noValidate onSubmit={(e)=>handleLogin(e)}>
+            <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="username"
+                  label="User Name"
+                  name="email"
+                  value={username}
+                  onChange={(e)=> setusername(e.target.value)}
+                  autoComplete="user-name"
+                  autoFocus
+                />
+            <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e)=> setpassword(e.target.value)}
+                />
+            <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                
+                <Grid item>
+                  <Link to='/user/newuser' variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+          </Box>
+        </Box>
+        
+      </Grid>
+    </Grid>
   )
 }
 

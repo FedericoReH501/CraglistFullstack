@@ -1,28 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
 import './index.css';
 import App from './App';
 import { QueryClient, QueryClientProvider } from 'react-query'
-import {BrowserRouter as Router} from 'react-router-dom'
-import { createStore,combineReducers } from 'redux';
+import {HashRouter as Router} from 'react-router-dom'
+import{configureStore,getDefaultMiddleware} from '@reduxjs/toolkit'
 import{Provider} from 'react-redux'
 import userReducer from './reducers/userReducer';
-import showCragsReducer from './reducers/showCragsReducer';
+import cragsReducer from './reducers/showCragsReducer';
 import cragsFilterReducer from './reducers/cragsFilterReducer';
+import regionReducer from './reducers/regionReducer';
 const client = new QueryClient()
-const reducer = combineReducers({
-  user:userReducer,
-  crags: showCragsReducer,
-  filter: cragsFilterReducer
+
+const store = configureStore({
+  reducer:{
+    user:userReducer,
+    crags: cragsReducer,
+    filter: cragsFilterReducer,
+    region: regionReducer
+  },
+  middleware: [getDefaultMiddleware()[1], getDefaultMiddleware()[2]],
+
 })
-const store = createStore( reducer)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <QueryClientProvider client={client}>
     <Provider store={store}>
       <Router>
+      
           <App />
+      
       </Router>
     </Provider>
   </QueryClientProvider>

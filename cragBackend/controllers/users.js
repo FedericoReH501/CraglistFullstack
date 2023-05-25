@@ -25,7 +25,7 @@ usersRouter.post('/', async (request, response)=>{
     name:name,
     email:email,
     region:region,
-    favRegions:[region]
+    favsRegions:[region]
   })
 
   const savedUser = await user.save()
@@ -33,12 +33,13 @@ usersRouter.post('/', async (request, response)=>{
   
 })
 
-usersRouter.put('/favs/:id',userExtractor ,async (request,response)=>{
-  userId = request.user
+usersRouter.put('/:id',userExtractor ,async (request,response)=>{
+  console.log('RECIVED!!!!!!')
+  userId = request.params.id
 
-const result = await User.findByIdAndUpdate(userId,request.body,{new:true})
+  const result = await User.findByIdAndUpdate(userId,request.body,{new:true})
 
-return response.status(204).end()  
+  return response.status(204).end()  
 })
 
 module.exports = usersRouter
