@@ -3,6 +3,7 @@ import loginService from '../services/login'
 import { useNavigate,Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { Box,TextField,Grid,CssBaseline,Paper, Button} from '@mui/material'
+import { setUser } from '../reducers/userReducer'
 const LoginForm = ()=>{
   const [username, setusername] = useState('')
   const [password, setpassword] = useState('')
@@ -12,7 +13,7 @@ const LoginForm = ()=>{
     try{
       const response = await loginService.login(credentials)
       window.localStorage.setItem('loggedUser',JSON.stringify(response))
-      dispatch({type:'SET_USER',payload:response})
+      dispatch(setUser(response))
       navigate('/')
     }catch(e){ console.error(e.response.data)}
   }

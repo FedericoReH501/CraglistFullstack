@@ -1,10 +1,10 @@
 import './App.css'
 import { Container,Box,CssBaseline, Paper, Typography, Button} from '@mui/material'
 import Regions from './components/Regions'
-import Navibar from './components/Navbar'
 import Crags from './components/Crags'
 import Filter from './components/Filter'
 import LoginForm from './components/LoginForm'
+import NewUser from './components/NewUser'
 import cragsService from './services/crags'
 import usersServices from './services/users'
 import { setCrags } from './reducers/showCragsReducer'
@@ -18,6 +18,7 @@ import {Routes, Route, Link,Outlet,
 import { setUser } from './reducers/userReducer'
 import Region from './components/Region'
 import Vie from './components/Vie'
+import Navibar from './components/Navibar'
 
 
 function App() {
@@ -59,7 +60,8 @@ function App() {
               path ='/' 
               element={
                 <Box>
-                  <Navibar user={user}></Navibar>
+                  
+                  <Navibar></Navibar>
                   <Paper>
                     <Button onClick={() => navigate('/italy')}>
                       Italy
@@ -89,6 +91,7 @@ function App() {
             </Route>
             
             <Route path='/login' element={<LoginForm></LoginForm>}/>
+            <Route path='/user/newuser' element={<NewUser></NewUser>}/>
             
           </Routes>
           
