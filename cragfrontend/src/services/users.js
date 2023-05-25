@@ -7,6 +7,11 @@ const setToken = (newtoken) => {
   token = `Bearer ${newtoken}`
 }
 
+const createNew = async (newUser)=>{
+  const response = await axios.post(baseUrl,newUser)
+  return response.data
+}
+
 const updateFavs= async(user,regions)=>{
   
   setToken(user.token)
@@ -20,4 +25,4 @@ const updateFavs= async(user,regions)=>{
 }
 
 
-export default {updateFavs,setToken}
+export default {updateFavs,setToken,createNew}

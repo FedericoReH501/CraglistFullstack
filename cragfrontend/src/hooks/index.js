@@ -2,6 +2,7 @@ import { useState } from "react"
 export const useTextInput = (type)=>{
   const [value, setValue] = useState('')
   const input ={
+    type:type,
     name:type,
     id:type,
     label:type}

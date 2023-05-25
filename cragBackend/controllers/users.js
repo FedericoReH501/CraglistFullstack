@@ -13,19 +13,19 @@ usersRouter.get('/',async(request,response)=>{
 })
 
 usersRouter.post('/', async (request, response)=>{
-  const {username,password,name,email,region} = request.body
+  const {username,password,name,surname,level,email} = request.body
   if(password.length<6){
     return  response.status(400).json({error:'Password must be at least 6 caracters'})
   }
 
-  const hash = await bcrypt.hash(password,10)
+  const passwordHash = await bcrypt.hash(password,10)
   const user = new User({
-    username:username,
-    passwordHash:hash,
-    name:name,
-    email:email,
-    region:region,
-    favsRegions:[region]
+    username,
+    passwordHash,
+    name,
+    surname,
+    level,
+    email,
   })
 
   const savedUser = await user.save()

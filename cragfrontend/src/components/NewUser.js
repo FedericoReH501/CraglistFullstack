@@ -1,30 +1,67 @@
-import { Box,Typography,Grid,Link,Button,Paper, Container, TextField, Stepper, Step, StepLabel, Slider } from "@mui/material"
+import { Box,Typography,Grid,Link,Button,Zoom,Paper, Container, TextField, Stepper, Step, StepLabel, Slider } from "@mui/material"
 import { useTextInput } from "../hooks"
 import { useState } from "react"
-const handleSubmit = ()=>{
-}
+import usersServices from "../services/users"
+import loginServices from "../services/login"
+import { useNavigate } from "react-router-dom"
+import Icon from '@mui/icons-material/CheckCircleOutline'
+import { useDispatch } from "react-redux"
+import { setUser } from "../reducers/userReducer"
 
 const NewUser = ()=>{
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const firstName = useTextInput('First Name')
   const secondName = useTextInput('Second Name')
   const userName = useTextInput('Username')
-  const password = useTextInput('Password')
+  const password = useTextInput('password')
+  const email = useTextInput('email')
   const [step, setStep] = useState(0)
   const [level, setLevel] = useState(17)
-  window.localStorage.setItem('step',step)
-  const storedStep = Number(window.localStorage.getItem('step'))
+  
+  let storedStep = Number(window.localStorage.getItem('step'))
   
   const handleNext = (e)=>{
     e.preventDefault()
-    setStep(step + 1)
-   
+    
+    const data = {
+      name:firstName.value,
+      surname:secondName.value,
+      username:userName.value,
+      email:email.value,
+      password:password.value
+    }
+    setStep(1)
+    window.localStorage.setItem('step',1)
+    window.localStorage.setItem('step1_data',JSON.stringify(data))
   }
-
-  const handleSubmit = (e)=>{
+  const logUser = async (credentials)=>{
+    try{
+      const response = await loginServices.login(credentials)
+      window.localStorage.setItem('loggedUser',JSON.stringify(response))
+      dispatch(setUser(response))
+      navigate('/')
+    }catch(e){ console.error(e.response.data)}
+  }
+    
+  const handleSubmit = async (e)=>{
     e.preventDefault()
-    setStep(step + 1)
+    const credentialsStep1 =JSON.parse(window.localStorage.getItem('step1_data')) 
+    const userObj = {...credentialsStep1,level:level.value}
+    const response = await usersServices.createNew(userObj)
+    const username = response.username
+    const password = credentialsStep1.password
+    logUser({username,password})
+   
+    storedStep = 2
+    window.localStorage.setItem('step',2)
+    setStep(3)
+    setTimeout(() => {
+      window.localStorage.clear()
+      navigate('/')
+    }, 1500);
   }
-
+  
   return(
     <div>
       <Container maxWidth='xs'>
@@ -49,7 +86,7 @@ const NewUser = ()=>{
           
           </Box>
           {storedStep === 0 &&
-            <Box component='form'  sx={{my:3}} onSubmit={(e)=>handleNext(e)}>
+            <Box  component='form'  sx={{my:3}} onSubmit={(e)=>handleNext(e)}>
             <Grid container spacing={2}>
               <Grid item md={6} sm={6}>
                 <TextField
@@ -62,13 +99,20 @@ const NewUser = ()=>{
               <Grid item md={6} sm={6}>
                 <TextField
                   {...secondName}
-                  required
+                  
                   fullWidth
                 ></TextField>
               </Grid>
               <Grid item xs={12} sm={12}>
                 <TextField
                   {...userName}
+                  required
+                  fullWidth
+                ></TextField>
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <TextField
+                  {...email}
                   required
                   fullWidth
                 ></TextField>
@@ -127,7 +171,12 @@ const NewUser = ()=>{
                   fullWidth
                   sx={{my:2}}
                   onClick={()=>{
-                    setStep(step - 1)
+                    console.log('back')
+                    storedStep = 0
+                    window.localStorage.setItem('step',0)
+                    console.log(storedStep)
+                    setStep(3)
+                  
                   }}
                 >
                 Back
@@ -157,7 +206,15 @@ const NewUser = ()=>{
           }
           {storedStep === 2 &&
             <Box>
-
+              <Zoom in={true}>
+                <Box sx={{display:'flex',flexDirection:'column',py:2,justifyContent:'center'}}>
+                  <Icon fontSize="300px"/>
+                  <Typography variant="h3">
+                    Completed!
+                  </Typography>
+                </Box>
+                
+              </Zoom>
             </Box>
           }
         </Box>

@@ -25,7 +25,7 @@ const userSchema= mongoose.Schema(
             
         },
         region: String,
-        level: String,
+        level: Number,
         completed:[],
         workInProg:[],
         favsRegions:[],
