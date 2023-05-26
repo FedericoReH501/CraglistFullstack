@@ -1,29 +1,35 @@
-import { Box,Slide, Checkbox,List,Paper,Grow, Typography, TableHead, TableRow ,TableCell, TableContainer,Table, TableBody, Button, IconButton} from "@mui/material"
-import { useParams } from "react-router-dom"
-import TaskAltOutlinedIcon from '@mui/icons-material/TaskAltOutlined';
-import SportsGymnasticsOutlinedIcon from '@mui/icons-material/SportsGymnasticsOutlined'
+import { Box,Paper,Typography, TableHead, TableRow ,TableCell, TableContainer,Table, TableBody,IconButton, Breadcrumbs} from "@mui/material"
+import { Link, useParams } from "react-router-dom"
+
 import CompletedButton from "./CompletedButton"
-import { useSelector } from "react-redux";
+import WIPButton from "./WIPButton"
+import { useSelector } from "react-redux"
 
 
 const Vie = (props)=>{
+
   const selectedCrag = useParams().crag
   const user = useSelector(s => s.user )
-  console.log('user vie',user)
+  const region = useParams().region
   const completed = user ? user.completed :[]
+  const wip = user ? user.workInProg : []
   const isCompleted = (via)=>{
+    let result = null
     completed.forEach(element => {
+      
       if(element.name === via.name && element.grade === via.grade){
-        return element.how
+        result = element.how
       }
-      else{ return null}
     })
+    return result
   }
+
   const crag = props.cragsList.find(c=>c.name === selectedCrag)
   
   if(crag){
     return(
     <Paper>
+      
       <Box>
         {crag.sectors.map(s=>
           <Box key={s.sectorName}>
@@ -36,8 +42,8 @@ const Vie = (props)=>{
                   <TableRow >
                     <TableCell> Name</TableCell>
                     <TableCell> Grade</TableCell>
-                    <TableCell> Completed</TableCell>
                     <TableCell> Work in Prog.</TableCell>
+                    <TableCell> Completed</TableCell>
                     
                   </TableRow>
               </TableHead>
@@ -46,8 +52,8 @@ const Vie = (props)=>{
                   <TableRow key={`${v.name}${s.sectorName}${index}`}>
                     <TableCell>{v.name}</TableCell>
                     <TableCell>{v.grade}</TableCell>
-                    <TableCell><CompletedButton completed={isCompleted(v) } user={user} via={v}/></TableCell>
-                    <TableCell><IconButton><SportsGymnasticsOutlinedIcon/></IconButton></TableCell>
+                    <TableCell><WIPButton wip={wip} completed={completed} user={user} via={{...v,crag:crag.name,region:region}}/></TableCell>
+                    <TableCell><CompletedButton completed={isCompleted(v)} user={user} via={{...v,crag:crag.name,region:region}} wip={wip}/></TableCell>
                   </TableRow>
                 )}
               </TableBody>

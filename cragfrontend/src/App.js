@@ -17,13 +17,14 @@ import { setUser } from './reducers/userReducer'
 import Region from './components/Region'
 import Vie from './components/Vie'
 import Navibar from './components/Navibar'
+import BreadCrumb from './components/BreadCrumbs'
 
 
 function App() {
   const navigate = useNavigate()
   const cragsList = useSelector(state=>state.crags.cragsList)
   const filter = useSelector(state=>state.filter)
- 
+ const params = useParams()
   
   const user = useSelector(state=>state.user)
   const dispatch = useDispatch()
@@ -62,7 +63,7 @@ function App() {
     }
     
   },[dispatch])
-  
+  console.log(filter.show)
   return (
     <CssBaseline>
       <Container>
@@ -73,11 +74,13 @@ function App() {
                 <Box>
                   
                   <Navibar></Navibar>
-                  <Paper>
+                  <BreadCrumb></BreadCrumb>
+                  {!filter.show && <Paper>
                     <Button onClick={() => navigate('/italy')}>
                       Italy
                     </Button>
-                  </Paper>
+                  </Paper>}
+                  
                   <Outlet />  
                 </Box>
             }>
@@ -86,15 +89,15 @@ function App() {
               }/>
               <Route index path='/italy/:region' element={
                 <Box>
-                  <Regions/>              
+                  <BreadCrumb></BreadCrumb>
+                               
                   <Crags></Crags>
                   <Filter gradeList={gradeList}></Filter>
                 </Box>
               }/>
               <Route index path='italy/:region/:crag' element={
-                <Box>
-                  <Regions/>              
-                  <Crags/>
+                <Box>           
+                  <BreadCrumb></BreadCrumb>
                   <Vie cragsList={cragsList}></Vie>
                 </Box>
                   

@@ -1,8 +1,8 @@
-import { useState,useRef, memo, useCallback,useMemo} from "react"
+import { useRef, memo} from "react"
 import {useDispatch,useSelector} from 'react-redux'
 import { setGradeFilter } from "../reducers/cragsFilterReducer"
 import { Box,Slide,Slider,Paper } from "@mui/material"
-import { setTest } from "../reducers/regionReducer"
+
 
 const Filter = ({gradeList})=>{
   const filter = useSelector(state=> state.filter)
@@ -10,10 +10,6 @@ const Filter = ({gradeList})=>{
   const boxRef = useRef()
   const value = filter.rawRange
   
-  
-  
-
-
   const filterMaker =  (min,max)=>{
     
     const result = []
@@ -49,7 +45,7 @@ const Filter = ({gradeList})=>{
   
   return(
     
-      <Slide in={filter.show} direction="up" container={boxRef.current} mountOnEnter unmountOnExit >
+      <Slide in={true} direction="up" container={boxRef.current} mountOnEnter unmountOnExit >
         <Box sx={{display:'flex',alignItems:'center',justifyContent:'center'}} component={Paper}>
               <Box sx={{flex:'1 1 100px',maxWidth:'80%'} }>
               <Slider
