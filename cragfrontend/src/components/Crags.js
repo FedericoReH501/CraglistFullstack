@@ -13,7 +13,7 @@ const Crags = (props)=>{
       return crags.cragsList
     })]
   const user = useSelector(state=>state.user)
-  console.log('user:',user)
+  
   const navigate = useNavigate()
   const filter = useSelector(state=> state.filter)
   

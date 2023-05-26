@@ -46,8 +46,11 @@ const handleFav =async (region)=>{
       return false
     }
   }
-  const updateFavs = async(regions,user)=>{
-    const response = await usersServices.updateFavs(regions,user)
+  const updateFavs = async(user,regions)=>{
+    console.log('update favs, user:',user)
+    console.log('update favs, regions:',regions)
+    const updatedUser = {...user,favsRegions:regions}
+    const response = await usersServices.updateFavs(updatedUser)
   }
 
   return(

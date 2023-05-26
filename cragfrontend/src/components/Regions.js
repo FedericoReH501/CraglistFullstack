@@ -13,11 +13,9 @@ const Regions = (props)=>{
   const user = useSelector(state=>state.user)
   const filter = useSelector(state=>state.filter)
   const dispatch = useDispatch()
-  console.log('region user')
   const favsregions = user 
     ? user.favsRegions
     : []
-  console.log('favs:',favsregions)
   const favsRegions = favsregions.map( r => r.toLowerCase() ) 
   
   const regions = favsRegions === [] 

@@ -8,7 +8,7 @@ import Icon from '@mui/icons-material/CheckCircleOutline'
 import { useDispatch } from "react-redux"
 import { setUser } from "../reducers/userReducer"
 
-const NewUser = ()=>{
+const NewUser = ({gradeList})=>{
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const firstName = useTextInput('First Name')
@@ -47,7 +47,7 @@ const NewUser = ()=>{
   const handleSubmit = async (e)=>{
     e.preventDefault()
     const credentialsStep1 =JSON.parse(window.localStorage.getItem('step1_data')) 
-    const userObj = {...credentialsStep1,level:level.value}
+    const userObj = {...credentialsStep1, level:gradeList[level.value]}
     const response = await usersServices.createNew(userObj)
     const username = response.username
     const password = credentialsStep1.password
@@ -151,7 +151,7 @@ const NewUser = ()=>{
             <Typography my={2}>
               Set Your Climbing Level!
             </Typography>
-            <Typography variant="h5">{level}</Typography>
+            <Typography variant="h5">{gradeList[level]}</Typography>
             <Box component='form' noValidate sx={{my:3}} onSubmit={handleSubmit}>
             <Grid item md={12} sm={12}>
               <Slider
@@ -171,10 +171,8 @@ const NewUser = ()=>{
                   fullWidth
                   sx={{my:2}}
                   onClick={()=>{
-                    console.log('back')
                     storedStep = 0
                     window.localStorage.setItem('step',0)
-                    console.log(storedStep)
                     setStep(3)
                   
                   }}

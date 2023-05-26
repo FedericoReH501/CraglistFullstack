@@ -23,7 +23,16 @@ if(!(user && passwordCorrect)){
   const token = jsonwebtoken.sign(userForToken,process.env.SECRET)
 
   response.status(200)
-  .send({token,username:username,name:user.name,id:user.id,favsRegions:user.favsRegions})
+  .send({
+    token,
+    username: username,
+    name: user.name,
+    id: user.id,
+    favsRegions: user.favsRegions,
+    completed: user.completed,
+    workInProg: user.workInProg,
+    favsCrags: user.favsCrags
+  })
 })
 
 module.exports = loginRouter

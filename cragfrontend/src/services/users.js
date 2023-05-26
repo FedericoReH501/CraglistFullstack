@@ -12,14 +12,14 @@ const createNew = async (newUser)=>{
   return response.data
 }
 
-const updateFavs= async(user,regions)=>{
-  
+const updateFavs= async(user)=>{
+  console.log('user services:',user)
   setToken(user.token)
+  console.log('token',token)
   const confing = {
     headers:{Authorization: token,}
   }
-  const updatedUser = {...user,favsRegions:regions}
-  const response = await axios.put(`${baseUrl}/${user.id}`,updatedUser,confing)
+  const response = await axios.put(`${baseUrl}/${user.id}`,user,confing)
   console.log('response:',response)
   return response
 }

@@ -1,11 +1,24 @@
 import { Box,Slide, Checkbox,List,Paper,Grow, Typography, TableHead, TableRow ,TableCell, TableContainer,Table, TableBody, Button, IconButton} from "@mui/material"
 import { useParams } from "react-router-dom"
 import TaskAltOutlinedIcon from '@mui/icons-material/TaskAltOutlined';
-import SportsGymnasticsOutlinedIcon from '@mui/icons-material/SportsGymnasticsOutlined';
+import SportsGymnasticsOutlinedIcon from '@mui/icons-material/SportsGymnasticsOutlined'
+import CompletedButton from "./CompletedButton"
+import { useSelector } from "react-redux";
+
 
 const Vie = (props)=>{
   const selectedCrag = useParams().crag
-  
+  const user = useSelector(s => s.user )
+  console.log('user vie',user)
+  const completed = user ? user.completed :[]
+  const isCompleted = (via)=>{
+    completed.forEach(element => {
+      if(element.name === via.name && element.grade === via.grade){
+        return element.how
+      }
+      else{ return null}
+    })
+  }
   const crag = props.cragsList.find(c=>c.name === selectedCrag)
   
   if(crag){
@@ -33,7 +46,7 @@ const Vie = (props)=>{
                   <TableRow key={`${v.name}${s.sectorName}${index}`}>
                     <TableCell>{v.name}</TableCell>
                     <TableCell>{v.grade}</TableCell>
-                    <TableCell><IconButton><TaskAltOutlinedIcon/></IconButton></TableCell>
+                    <TableCell><CompletedButton completed={isCompleted(v) } user={user} via={v}/></TableCell>
                     <TableCell><IconButton><SportsGymnasticsOutlinedIcon/></IconButton></TableCell>
                   </TableRow>
                 )}

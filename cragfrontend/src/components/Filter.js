@@ -4,24 +4,14 @@ import { setGradeFilter } from "../reducers/cragsFilterReducer"
 import { Box,Slide,Slider,Paper } from "@mui/material"
 import { setTest } from "../reducers/regionReducer"
 
-const Filter = ()=>{
+const Filter = ({gradeList})=>{
   const filter = useSelector(state=> state.filter)
   const dispatch = useDispatch()
   const boxRef = useRef()
   const value = filter.rawRange
   
   
-  const gradeList = useMemo(()=>{const array =[]
-    for (let i = 4; i < 10; i++) {
-      array.push(`${i}a`)
-      array.push(`${i}a+`)
-      array.push(`${i}b`)
-      array.push(`${i}b+`)
-      array.push(`${i}c`)
-      array.push(`${i}c+`)
-    }
-    return array
-  },[dispatch]) 
+  
 
 
   const filterMaker =  (min,max)=>{

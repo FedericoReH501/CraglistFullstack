@@ -10,11 +10,9 @@ import usersServices from './services/users'
 import { setCrags } from './reducers/showCragsReducer'
 
 import { useDispatch,useSelector } from 'react-redux'
-import {useEffect,useRef,createRef} from 'react'
+import {useEffect,useMemo} from 'react'
 import { useQuery } from 'react-query'
-import {Routes, Route, Link,Outlet,
-  useParams,
-  useNavigate} from 'react-router-dom'
+import {Routes, Route, Link,Outlet,useParams,useNavigate} from 'react-router-dom'
 import { setUser } from './reducers/userReducer'
 import Region from './components/Region'
 import Vie from './components/Vie'
@@ -35,6 +33,19 @@ function App() {
     console.log('downloaded!!!!!!')
     window.localStorage.setItem('cragsList',JSON.stringify(result.data))
   }})
+
+  const gradeList = useMemo(()=>{const array =[]
+    for (let i = 4; i < 10; i++) {
+      array.push(`${i}a`)
+      array.push(`${i}a+`)
+      array.push(`${i}b`)
+      array.push(`${i}b+`)
+      array.push(`${i}c`)
+      array.push(`${i}c+`)
+    }
+    return array
+  },[dispatch]) 
+
 
   useEffect(()=>{
     const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser')) 
@@ -77,7 +88,7 @@ function App() {
                 <Box>
                   <Regions/>              
                   <Crags></Crags>
-                  <Filter></Filter>
+                  <Filter gradeList={gradeList}></Filter>
                 </Box>
               }/>
               <Route index path='italy/:region/:crag' element={
@@ -91,7 +102,7 @@ function App() {
             </Route>
             
             <Route path='/login' element={<LoginForm></LoginForm>}/>
-            <Route path='/user/newuser' element={<NewUser></NewUser>}/>
+            <Route path='/user/newuser' element={<NewUser gradeList={gradeList}></NewUser>}/>
             
           </Routes>
           

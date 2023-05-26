@@ -1,10 +1,18 @@
 import { AppBar,Toolbar,Box, Button, Grid, Typography } from "@mui/material"
-import { useSelector } from "react-redux"
+import { useSelector,useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { setUser } from "../reducers/userReducer"
+
 const Navibar = ()=>{
+
   const user = useSelector(s=>s.user)
-  console.log(user)
+  
   const navigate = useNavigate()
+  const dispatch= useDispatch()
+  const logOut=()=>{
+    window.localStorage.clear()
+    dispatch(setUser(null))
+  }
   return(
     <Box>
       <AppBar position="static">
@@ -25,7 +33,7 @@ const Navibar = ()=>{
                     <Typography component={'div'}>
                       {user.name} logged in
                     </Typography>
-                    <Button color="inherit">
+                    <Button color="inherit" onClick={logOut}>
                       
                       logout
                     </Button>

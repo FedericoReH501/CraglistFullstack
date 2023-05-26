@@ -35,7 +35,8 @@ usersRouter.post('/', async (request, response)=>{
 
 usersRouter.put('/:id',userExtractor ,async (request,response)=>{
   console.log('RECIVED!!!!!!')
-  userId = request.params.id
+  
+  const userId = request.params.id
 
   const result = await User.findByIdAndUpdate(userId,request.body,{new:true})
 
