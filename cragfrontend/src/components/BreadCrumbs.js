@@ -1,52 +1,23 @@
-import PinDropIcon from '@mui/icons-material/PinDrop';
-import GpsFixedIcon from '@mui/icons-material/GpsFixed';
-import TourIcon from '@mui/icons-material/Tour';
-import TerrainOutlinedIcon from '@mui/icons-material/TerrainOutlined';
-import { Breadcrumbs,Paper,Typography,Link,ListItem,ListItemText } from '@mui/material'
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+import PinDropIcon from '@mui/icons-material/PinDrop'
+import GpsFixedIcon from '@mui/icons-material/GpsFixed'
+import TourIcon from '@mui/icons-material/Tour'
+import TerrainOutlinedIcon from '@mui/icons-material/TerrainOutlined'
+import { Breadcrumbs,Paper,Typography,Link,ListItem,ListItemText, IconButton } from '@mui/material'
+
 import {
   Link as RouterLink,
-  Route,
-  Routes,
-  MemoryRouter,
   useLocation,
   useParams,
-} from 'react-router-dom';
-import Region from './Region';
+} from 'react-router-dom'
 
-const breadcrumbNameMap = {
-  '/inbox': 'Inbox',
-  '/inbox/important': 'Important',
-  '/trash': 'Trash',
-  '/spam': 'Spam',
-  '/drafts': 'Drafts',
-}
 
-function ListItemLink(props) {
-  const { to, open, ...other } = props;
-  const primary = breadcrumbNameMap[to];
-
-  let icon = null;
-  if (open != null) {
-    icon = open ? <ExpandLess /> : <ExpandMore />;
-  }
-
-  return (
-    <li>
-      <ListItem button component={RouterLink} to={to} {...other}>
-        <ListItemText primary={primary} />
-        {icon}
-      </ListItem>
-    </li>
-  );
-}
 
 function LinkRouter(props) {
-  return <Link {...props} component={RouterLink} />;
+  return <IconButton {...props} component={RouterLink} />;
 }
 
 const BreadCrumb = ()=>{
+  const iconsList=[<TourIcon/>,<PinDropIcon/>,<TerrainOutlinedIcon/>]
   const params = Object.entries(useParams())
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
@@ -64,12 +35,14 @@ const BreadCrumb = ()=>{
         console.log('params:',params)
 
         return last ? (
-          <Typography color="text.primary" key={to}>
+          <IconButton color="text.primary" key={to}>
+            {iconsList[index]}
             {value}
             
-          </Typography>
+          </IconButton>
         ) : (
           <LinkRouter underline="hover" color="inherit" to={to} key={to}>
+            {iconsList[index]}
             {value}
           </LinkRouter>
         );

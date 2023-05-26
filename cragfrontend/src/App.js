@@ -74,7 +74,7 @@ function App() {
                 <Box>
                   
                   <Navibar></Navibar>
-                  <BreadCrumb></BreadCrumb>
+                  
                   {!filter.show && <Paper>
                     <Button onClick={() => navigate('/italy')}>
                       Italy
@@ -85,7 +85,11 @@ function App() {
                 </Box>
             }>
               <Route index path='/italy' element={
+                <Box>
+
+                  <BreadCrumb></BreadCrumb>
                   <Regions></Regions>
+                </Box>
               }/>
               <Route index path='/italy/:region' element={
                 <Box>
