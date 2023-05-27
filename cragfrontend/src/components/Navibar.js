@@ -1,7 +1,9 @@
-import { AppBar,Toolbar,Box, Button, Grid, Typography } from "@mui/material"
+import { AppBar,Tabs,Tab,Toolbar,Box, Button, Grid, Typography } from "@mui/material"
 import { useSelector,useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { setUser } from "../reducers/userReducer"
+import { useState,SyntheticEvent } from "react"
+
 
 const Navibar = ()=>{
 
@@ -16,11 +18,19 @@ const Navibar = ()=>{
   return(
     <Box>
       <AppBar position="static">
+      <Box sx={{ width: '100%' }}>
+      
+    </Box>
         <Toolbar>
           <Grid container>
-            <Grid item md={11}>
+            <Grid item md={5}>
               <Button color="inherit" onClick={()=>navigate('/')}>
                           home
+              </Button>
+            </Grid>
+            <Grid item md={5}>
+              <Button color="inherit" onClick={()=>navigate('/user')}>
+                          User
               </Button>
             </Grid>
 
@@ -31,7 +41,7 @@ const Navibar = ()=>{
                     </Button>
                   :<Box>
                     <Typography component={'div'}>
-                      {user.name} logged in
+                      {user.name} 
                     </Typography>
                     <Button color="inherit" onClick={logOut}>
                       

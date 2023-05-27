@@ -18,6 +18,7 @@ import Region from './components/Region'
 import Vie from './components/Vie'
 import Navibar from './components/Navibar'
 import BreadCrumb from './components/BreadCrumbs'
+import UserShow from './components/UserShow'
 
 
 function App() {
@@ -71,10 +72,8 @@ function App() {
             <Route  
               path ='/' 
               element={
-                <Box>
-                  
-                  <Navibar></Navibar>
-                  
+                <Box>    
+                  <Navibar></Navibar>         
                   {!filter.show && <Paper>
                     <Button onClick={() => navigate('/italy')}>
                       Italy
@@ -84,17 +83,19 @@ function App() {
                   <Outlet />  
                 </Box>
             }>
+              <Route index path='/user' element={
+                <Box>
+                  <UserShow></UserShow>
+                </Box>}/>
               <Route index path='/italy' element={
                 <Box>
-
                   <BreadCrumb></BreadCrumb>
                   <Regions></Regions>
                 </Box>
               }/>
               <Route index path='/italy/:region' element={
                 <Box>
-                  <BreadCrumb></BreadCrumb>
-                               
+                  <BreadCrumb></BreadCrumb>       
                   <Crags></Crags>
                   <Filter gradeList={gradeList}></Filter>
                 </Box>

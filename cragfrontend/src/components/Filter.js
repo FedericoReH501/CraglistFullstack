@@ -46,7 +46,7 @@ const Filter = ({gradeList})=>{
   return(
     
       <Slide in={true} direction="up" container={boxRef.current} mountOnEnter unmountOnExit >
-        <Box sx={{display:'flex',alignItems:'center',justifyContent:'center'}} component={Paper}>
+        <Box sx={{display:'flex',alignItems:'center',justifyContent:'center',height:'30vh'}} component={Paper}>
               <Box sx={{flex:'1 1 100px',maxWidth:'80%'} }>
               <Slider
                 max={35}

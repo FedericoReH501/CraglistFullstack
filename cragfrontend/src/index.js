@@ -11,6 +11,8 @@ import userReducer from './reducers/userReducer';
 import cragsReducer from './reducers/showCragsReducer';
 import cragsFilterReducer from './reducers/cragsFilterReducer';
 import regionReducer from './reducers/regionReducer';
+import { createTheme, ThemeProvider} from '@mui/material/styles'
+import { ThemeOptions } from '@mui/material/styles';
 const client = new QueryClient()
 
 const store = configureStore({
@@ -26,12 +28,31 @@ const store = configureStore({
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+const theme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#9c27b0',
+    },
+  },
+  typography: {
+    fontFamily: 'Open Sans',
+    fontSize: 14,
+    fontWeightLight: 200,
+  },
+})
+
 root.render(
   <QueryClientProvider client={client}>
     <Provider store={store}>
       <Router>
-      
-          <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+          
       
       </Router>
     </Provider>

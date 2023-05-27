@@ -1,4 +1,4 @@
-import { Box,Paper,Typography, TableHead, TableRow ,TableCell, TableContainer,Table, TableBody,IconButton, Breadcrumbs} from "@mui/material"
+import { Box,Paper,Typography, TableHead, TableRow ,TableCell, TableContainer,Table, TableBody,IconButton, Breadcrumbs,Slide} from "@mui/material"
 import { Link, useParams } from "react-router-dom"
 
 import CompletedButton from "./CompletedButton"
@@ -28,6 +28,7 @@ const Vie = (props)=>{
   
   if(crag){
     return(
+  <Slide  in={true} direction="up" mountOnEnter unmountOnExit >
     <Paper>
       
       <Box>
@@ -67,6 +68,7 @@ const Vie = (props)=>{
           )}
       </Box>
     </Paper>
+  </Slide>
       
     )
   }
