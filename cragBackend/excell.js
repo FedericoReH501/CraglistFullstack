@@ -1,1 +1,0 @@
-const file = require('xlsx').readFile('excel_file.xlsx')
