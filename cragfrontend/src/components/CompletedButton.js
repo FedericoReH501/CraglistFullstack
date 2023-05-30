@@ -43,14 +43,24 @@ const CompletedButton = (props) => {
                 ...props.via,
                 how: newValue,
             })
-            const updatedWIP = props.wip.filter(
-                (v) => v.name !== props.via.name
-            )
-            const updatedUser = {
-                ...props.user,
-                completed: updatedCompleted,
-                workInProg: updatedWIP,
+            let updatedUser = {}
+            if (props.user.workInProg.find((v) => v.name === props.via.name)) {
+                console.log('E WIP')
+                const workInProg = props.user.workInProg.filter((v) =>
+                    v.name === props.via.name ? null : v
+                )
+                updatedUser = {
+                    ...props.user,
+                    workInProg,
+                    completed: updatedCompleted,
+                }
+            } else {
+                updatedUser = {
+                    ...props.user,
+                    completed: updatedCompleted,
+                }
             }
+
             try {
                 await usersServices.updateFavs(updatedUser)
                 dispatch(setUser(updatedUser))

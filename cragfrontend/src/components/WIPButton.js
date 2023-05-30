@@ -39,7 +39,7 @@ const WIPButton = (props) => {
             const updatedWIP = props.user.workInProg.concat({ ...props.via })
             let updatedUser = {}
             if (props.user.completed.find((v) => v.name === props.via.name)) {
-                const updatedCompleted = props.user.complete.filter((v) =>
+                const updatedCompleted = props.user.completed.filter((v) =>
                     v.name === props.via.name ? null : v
                 )
                 updatedUser = {
@@ -63,7 +63,7 @@ const WIPButton = (props) => {
             }
         }
     }
-    console.log(props.wip)
+
     return (
         <ToggleButton value="check" selected={props.wip} onClick={onClick}>
             <SportsGymnasticsOutlinedIcon />

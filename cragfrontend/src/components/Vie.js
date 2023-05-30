@@ -33,13 +33,6 @@ const Vie = (props) => {
         return result
     }
     const isWIP = (via) => {
-        console.log('isWip via name', via.name)
-        console.log(
-            wip.find((v) => {
-                console.log('find:', v.name, 'vs: ', via.name)
-                return v.name === via.name
-            })
-        )
         if (wip.find((v) => v.name === via.name && v.grade === via.grade)) {
             return true
         }
