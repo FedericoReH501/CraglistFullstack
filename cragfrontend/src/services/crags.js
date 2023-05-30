@@ -1,14 +1,12 @@
-import axios from "axios";
+import axios from 'axios'
 const baseUrl = 'api/crags'
 
-const getAll= async ()=>{
-  return await axios.get(baseUrl)
+const getAll = async () => {
+    return await axios.get(baseUrl)
 }
 
-const getByRegion = async (region)=>{
-  
-  return await axios.get(`${baseUrl}/${region.toUpperCase()}`)
-  
+const getByRegion = async (region) => {
+    return await axios.get(`${baseUrl}/${region.toUpperCase()}`)
 }
 
-export default {getByRegion,getAll}
+export default { getByRegion, getAll }

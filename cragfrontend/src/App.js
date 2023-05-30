@@ -11,10 +11,18 @@ import { setCrags } from './reducers/showCragsReducer'
 import FalesiaScraper from './scraper/FalesiaScraper'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useMemo } from 'react'
+import cragsServices from './services/crags'
 
-import { Routes, Route, Outlet, useNavigate } from 'react-router-dom'
+import {
+    Routes,
+    Route,
+    Outlet,
+    useNavigate,
+    useParams,
+    useLocation,
+} from 'react-router-dom'
 import { setUser } from './reducers/userReducer'
-
+import { useQuery } from 'react-query'
 import Vie from './components/Vie'
 import Navibar from './components/Navibar'
 import BreadCrumb from './components/BreadCrumbs'
@@ -24,17 +32,19 @@ function App() {
     const navigate = useNavigate()
     const cragsList = useSelector((state) => state.crags.cragsList)
     const filter = useSelector((state) => state.filter)
-
     const dispatch = useDispatch()
-
-    /*useQuery("/crags", cragsService.getAll, {
-    refetchOnWindowFocus: false,
-    onSuccess: (result) => {
-      dispatch({ type: "SET_CRAGS", payload: result.data });
-      console.log("downloaded!!!!!!");
-      window.localStorage.setItem("cragsList", JSON.stringify(result.data));
-    },
-  });*/
+    const params = useParams()
+    useQuery('/crags', cragsServices.getAll, {
+        refetchOnWindowFocus: false,
+        onSuccess: (result) => {
+            dispatch({ type: 'SET_CRAGS', payload: result.data })
+            console.log('downloaded!!!!!!')
+            window.localStorage.setItem(
+                'cragsList',
+                JSON.stringify(result.data)
+            )
+        },
+    })
 
     const gradeList = useMemo(() => {
         const array = []
@@ -63,7 +73,11 @@ function App() {
             dispatch(setCrags(cragsList))
         }
     }, [dispatch])
-    console.log(filter.show)
+
+    const location = useLocation()
+        .pathname.split('/')
+        .filter((x) => x)
+
     return (
         <CssBaseline>
             <Container>
@@ -73,7 +87,7 @@ function App() {
                         element={
                             <Box>
                                 <Navibar></Navibar>
-                                {!filter.show && (
+                                {!location.length && (
                                     <Paper>
                                         <Button
                                             onClick={() => navigate('/italy')}
@@ -98,7 +112,7 @@ function App() {
                         />
                         <Route
                             index
-                            path="/italy"
+                            path="/:nation"
                             element={
                                 <Box>
                                     <BreadCrumb></BreadCrumb>

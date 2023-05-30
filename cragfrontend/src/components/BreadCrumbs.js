@@ -15,26 +15,22 @@ const BreadCrumb = () => {
         <PinDropIcon key={2} />,
         <TerrainOutlinedIcon key={3} />,
     ]
-    const params = Object.entries(useParams())
+
     const location = useLocation()
+    console.log('location:', location)
     const pathnames = location.pathname.split('/').filter((x) => x)
-    console.log('pathname:', pathnames)
+    console.log('pathnames:', pathnames)
     return (
         <Breadcrumbs aria-label="breadcrumb">
-            <LinkRouter underline="hover" color="inherit" to="/">
-                Home
-            </LinkRouter>
             {pathnames.map((value, index) => {
                 const last = index === pathnames.length - 1
-                console.log('last index:', last)
+
                 const to = `/${pathnames.slice(0, index + 1).join('/')}`
-                console.log('to:', to)
-                console.log('params:', params)
 
                 return last ? (
                     <IconButton color="text.primary" key={to}>
                         {iconsList[index]}
-                        {value}
+                        {value.toUpperCase().replaceAll('%20', ' ')}
                     </IconButton>
                 ) : (
                     <LinkRouter
@@ -44,7 +40,7 @@ const BreadCrumb = () => {
                         key={to}
                     >
                         {iconsList[index]}
-                        {value}
+                        {value.toUpperCase()}
                     </LinkRouter>
                 )
             })}

@@ -6,12 +6,24 @@ import { useState } from 'react'
 import usersServices from '../services/users'
 import { useDispatch } from 'react-redux'
 import { setUser } from '../reducers/userReducer'
-
+import { setNotification } from '../reducers/notificationReducer'
 const CompletedButton = (props) => {
     const dispatch = useDispatch()
     const [value, setvalue] = useState(null)
-    console.log(value)
+
     const handleCompleted = async (e, newValue) => {
+        if (!props.user) {
+            dispatch(
+                setNotification({
+                    message: `you must be logged to add favourites!`,
+                    severity: 'info',
+                })
+            )
+            setTimeout(() => {
+                dispatch(setNotification(null))
+            }, 2500)
+            return null
+        }
         if (props.completed) {
             setvalue(newValue)
             const updatedCompleted = props.user.completed.filter(
