@@ -9,7 +9,6 @@ import { setUser } from '../reducers/userReducer'
 import { setNotification } from '../reducers/notificationReducer'
 const CompletedButton = (props) => {
     const dispatch = useDispatch()
-    const [value, setvalue] = useState(null)
 
     const handleCompleted = async (e, newValue) => {
         if (!props.user) {
@@ -25,19 +24,21 @@ const CompletedButton = (props) => {
             return null
         }
         if (props.completed) {
-            setvalue(newValue)
             const updatedCompleted = props.user.completed.filter(
                 (v) => v.name !== props.via.name
             )
             const updatedUser = { ...props.user, completed: updatedCompleted }
-            await usersServices.updateFavs(updatedUser)
-            dispatch(setUser(updatedUser))
-            window.localStorage.setItem(
-                'loggedUser',
-                JSON.stringify(updatedUser)
-            )
+            try {
+                await usersServices.updateFavs(updatedUser)
+                dispatch(setUser(updatedUser))
+                window.localStorage.setItem(
+                    'loggedUser',
+                    JSON.stringify(updatedUser)
+                )
+            } catch (e) {
+                console.error(e)
+            }
         } else {
-            setvalue(newValue)
             const updatedCompleted = props.user.completed.concat({
                 ...props.via,
                 how: newValue,
@@ -50,12 +51,16 @@ const CompletedButton = (props) => {
                 completed: updatedCompleted,
                 workInProg: updatedWIP,
             }
-            await usersServices.updateFavs(updatedUser)
-            dispatch(setUser(updatedUser))
-            window.localStorage.setItem(
-                'loggedUser',
-                JSON.stringify(updatedUser)
-            )
+            try {
+                await usersServices.updateFavs(updatedUser)
+                dispatch(setUser(updatedUser))
+                window.localStorage.setItem(
+                    'loggedUser',
+                    JSON.stringify(updatedUser)
+                )
+            } catch (e) {
+                console.error(e)
+            }
         }
     }
     return (

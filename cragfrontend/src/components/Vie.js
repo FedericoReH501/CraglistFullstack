@@ -8,8 +8,6 @@ import {
     TableContainer,
     Table,
     TableBody,
-    IconButton,
-    Breadcrumbs,
     Slide,
 } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
@@ -33,6 +31,20 @@ const Vie = (props) => {
             }
         })
         return result
+    }
+    const isWIP = (via) => {
+        console.log('isWip via name', via.name)
+        console.log(
+            wip.find((v) => {
+                console.log('find:', v.name, 'vs: ', via.name)
+                return v.name === via.name
+            })
+        )
+        if (wip.find((v) => v.name === via.name && v.grade === via.grade)) {
+            return true
+        }
+
+        return false
     }
 
     const crag = props.cragsList.find((c) => c.name === selectedCrag)
@@ -77,10 +89,7 @@ const Vie = (props) => {
                                                     </TableCell>
                                                     <TableCell>
                                                         <WIPButton
-                                                            wip={wip}
-                                                            completed={
-                                                                completed
-                                                            }
+                                                            wip={isWIP(v)}
                                                             user={user}
                                                             via={{
                                                                 ...v,
