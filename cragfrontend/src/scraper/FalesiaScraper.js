@@ -18,9 +18,9 @@ function Crag(
     this.access = access
     this.exposure = expo
     this.kind = kind
-    this.parkingLocation = parking
-    this.location = location
-    this.distance = distance
+    this.parkingLocation = { type: 'Point', coordinates: parking }
+    this.location = { type: 'Point', coordinates: location }
+    this.distance = distance.toFixed(3)
 }
 const craglist = []
 
@@ -99,35 +99,13 @@ const infoParser = (infoTitle) => {
                 parking = formatCoordinates(infoTitle.join(' ').slice(24, -17))
             } else {
                 location = formatCoordinates(infoTitle.join(' ').slice(24, -21))
-                console.log('location test', location)
             }
             break
         default:
             return null
     }
 }
-if (location && parking) {
-    console.log('in here!!!!!!!!!')
-    const cragLocation = {
-        x: location[0],
-        y: location[1],
-    }
 
-    const parkingLocation = {
-        x: parking[0],
-        y: parking[1],
-    }
-
-    distance = calculateDistance(
-        cragLocation.x,
-        cragLocation.y,
-        parkingLocation.x,
-        parkingLocation.y
-    )
-    console.log('calculate', distance)
-} else {
-    console.log('Invalid coordinates format')
-}
 let parser = new DOMParser()
 const FalesiaScraper = () => {
     const download = async (e) => {
@@ -215,6 +193,26 @@ const FalesiaScraper = () => {
                     const sector = { sectorName, vie }
                     sectors.push(sector)
                 }
+                if (location && parking) {
+                    const cragLocation = {
+                        x: location[0],
+                        y: location[1],
+                    }
+
+                    const parkingLocation = {
+                        x: parking[0],
+                        y: parking[1],
+                    }
+
+                    distance = calculateDistance(
+                        cragLocation.x,
+                        cragLocation.y,
+                        parkingLocation.x,
+                        parkingLocation.y
+                    )
+                } else {
+                    console.log('Invalid coordinates format')
+                }
                 const cragObj = new Crag(
                     cragName,
                     region,
@@ -226,6 +224,12 @@ const FalesiaScraper = () => {
                     parking,
                     distance
                 )
+                access = null
+                expo = null
+                kind = null
+                location = null
+                parking = null
+                distance = null
                 craglist.push(cragObj)
                 window.localStorage.setItem(
                     'cragList',
@@ -260,6 +264,11 @@ const FalesiaScraper = () => {
         })
         console.log(response.data)
     }
+
+    console.log(
+        'distance test:!!!',
+        calculateDistance(13.8144, 41.9694, 14.1395, 41.9837)
+    )
 
     return (
         <div

@@ -1,24 +1,24 @@
 const mongoose = require('mongoose')
 
 const routeSchema = new mongoose.Schema({
-    routeName: { type: String, required: true },
-    difficult: { type: String, required: true },
+    name: { type: String },
+    grade: { type: String },
 })
 
 const sectorSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    routes: [routeSchema],
+    sectorName: { type: String },
+    vie: [routeSchema],
 })
 
 const cragSchema = mongoose.Schema({
     name: String,
     region: String,
     sectors: [sectorSchema],
+    distance: Number,
     location: {
         type: {
             type: String,
             enum: ['Point'],
-            required: true,
         },
         coordinates: {
             type: [Number],
@@ -32,11 +32,9 @@ const cragSchema = mongoose.Schema({
         type: {
             type: String,
             enum: ['Point'],
-            required: true,
         },
         coordinates: {
             type: [Number],
-            required: true,
         },
     },
 })

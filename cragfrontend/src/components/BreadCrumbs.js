@@ -17,9 +17,9 @@ const BreadCrumb = () => {
     ]
 
     const location = useLocation()
-    console.log('location:', location)
+
     const pathnames = location.pathname.split('/').filter((x) => x)
-    console.log('pathnames:', pathnames)
+
     return (
         <Breadcrumbs aria-label="breadcrumb">
             {pathnames.map((value, index) => {

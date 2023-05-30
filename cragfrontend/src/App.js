@@ -7,7 +7,7 @@ import LoginForm from './components/LoginForm'
 import NewUser from './components/NewUser'
 
 import usersServices from './services/users'
-import { setCrags } from './reducers/showCragsReducer'
+import { fetchCrags, initializeCrags, setCrags } from './reducers/CragsReducer'
 import FalesiaScraper from './scraper/FalesiaScraper'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useMemo } from 'react'
@@ -22,7 +22,6 @@ import {
     useLocation,
 } from 'react-router-dom'
 import { setUser } from './reducers/userReducer'
-import { useQuery } from 'react-query'
 import Vie from './components/Vie'
 import Navibar from './components/Navibar'
 import BreadCrumb from './components/BreadCrumbs'
@@ -31,21 +30,9 @@ import UserShow from './components/UserShow'
 function App() {
     const navigate = useNavigate()
     const cragsList = useSelector((state) => state.crags.cragsList)
-    const filter = useSelector((state) => state.filter)
+    const isLoading = useSelector((state) => state.crags.isLoading)
+    const error = useSelector((state) => state.crags.error)
     const dispatch = useDispatch()
-    const params = useParams()
-    useQuery('/crags', cragsServices.getAll, {
-        refetchOnWindowFocus: false,
-        onSuccess: (result) => {
-            dispatch({ type: 'SET_CRAGS', payload: result.data })
-            console.log('downloaded!!!!!!')
-            window.localStorage.setItem(
-                'cragsList',
-                JSON.stringify(result.data)
-            )
-        },
-    })
-
     const gradeList = useMemo(() => {
         const array = []
         for (let i = 4; i < 10; i++) {
@@ -71,9 +58,11 @@ function App() {
         if (cragsList) {
             console.log('Craglist on Localstorage')
             dispatch(setCrags(cragsList))
+        } else {
+            dispatch(fetchCrags())
         }
     }, [dispatch])
-
+    console.log(cragsList)
     const location = useLocation()
         .pathname.split('/')
         .filter((x) => x)

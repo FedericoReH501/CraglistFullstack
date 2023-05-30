@@ -45,7 +45,6 @@ const CompletedButton = (props) => {
             })
             let updatedUser = {}
             if (props.user.workInProg.find((v) => v.name === props.via.name)) {
-                console.log('E WIP')
                 const workInProg = props.user.workInProg.filter((v) =>
                     v.name === props.via.name ? null : v
                 )

@@ -1,9 +1,9 @@
 import { ToggleButton } from '@mui/material'
 import SportsGymnasticsOutlinedIcon from '@mui/icons-material/SportsGymnasticsOutlined'
-import { useState } from 'react'
 import usersServices from '../services/users'
 import { useDispatch } from 'react-redux'
 import { setUser } from '../reducers/userReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const WIPButton = (props) => {
     const dispatch = useDispatch()
@@ -17,7 +17,7 @@ const WIPButton = (props) => {
             )
             setTimeout(() => {
                 dispatch(setNotification(null))
-            }, 2500)
+            }, 3000)
             return null
         }
         if (props.wip) {

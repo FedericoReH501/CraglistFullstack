@@ -8,12 +8,12 @@ import { HashRouter as Router } from 'react-router-dom'
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import userReducer from './reducers/userReducer'
-import cragsReducer from './reducers/showCragsReducer'
+import cragsReducer from './reducers/CragsReducer'
 import cragsFilterReducer from './reducers/cragsFilterReducer'
 import regionReducer from './reducers/regionReducer'
 import notificationReducer from './reducers/notificationReducer'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { ThemeOptions } from '@mui/material/styles'
+
 const client = new QueryClient()
 
 const store = configureStore({
