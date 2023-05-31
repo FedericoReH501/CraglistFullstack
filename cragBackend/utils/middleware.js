@@ -10,13 +10,11 @@ const requestLogger = (request, response, next) => {
 
 const errorHendler = (error, request, response, next) => {
     console.error(error.message)
-    if(error.name === 'CastError'){
+    if (error.name === 'CastError') {
         return response.status(400).send({ error: 'malformatted id' })
-    }
-    else if (error.name === 'ValidationError') {
+    } else if (error.name === 'ValidationError') {
         return response.status(400).json({ error: error.message })
-    }
-    else if(error.name === 'JsonWebTokenError'){
+    } else if (error.name === 'JsonWebTokenError') {
         return response.status(401).json({ error: error.message })
     }
     next(error)
@@ -26,34 +24,37 @@ const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
 }
 
-const tokenExtractor = (request,response,next)=>{
-    
+const tokenExtractor = (request, response, next) => {
     const authorization = request.get('Authorization')
-    
-    if(!authorization || !authorization.startsWith('Bearer ')){
-        
+
+    if (!authorization || !authorization.startsWith('Bearer ')) {
         next()
-        return request.token = null  
+        return (request.token = null)
     }
-    
-    request.token = authorization.replace('Bearer ','')
-    
+
+    request.token = authorization.replace('Bearer ', '')
+
     next()
 }
-const userExtractor= async(request,response,next)=>{
-    
-    const decodedToken = JsonWebTokenError.verify(request.token,process.env.SECRET)
+const userExtractor = async (request, response, next) => {
+    const decodedToken = JsonWebTokenError.verify(
+        request.token,
+        process.env.SECRET
+    )
     const userId = decodedToken.id
-    if(!userId){
-        response.status(401).json({error:'invalid token'})
+    if (!userId) {
+        response.status(401).json({ error: 'invalid token' })
     }
 
     const user = await User.findById(userId)
     request.user = user
     next()
-    
 }
 
 module.exports = {
-    requestLogger, errorHendler,unknownEndpoint,tokenExtractor,userExtractor
+    requestLogger,
+    errorHendler,
+    unknownEndpoint,
+    tokenExtractor,
+    userExtractor,
 }

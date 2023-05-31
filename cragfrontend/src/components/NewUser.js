@@ -20,7 +20,8 @@ import { useNavigate } from 'react-router-dom'
 import Icon from '@mui/icons-material/CheckCircleOutline'
 import { useDispatch } from 'react-redux'
 import { setUser } from '../reducers/userReducer'
-
+import Notification from './Notification'
+import { setNotification } from '../reducers/notificationReducer'
 const NewUser = ({ gradeList }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -30,7 +31,7 @@ const NewUser = ({ gradeList }) => {
     const password = useTextInput('password')
     const email = useTextInput('email')
     const [step, setStep] = useState(0)
-    console.log(step)
+
     const [level, setLevel] = useState(17)
 
     let storedStep = Number(window.localStorage.getItem('step'))
@@ -52,11 +53,21 @@ const NewUser = ({ gradeList }) => {
     const logUser = async (credentials) => {
         try {
             const response = await loginServices.login(credentials)
+
             window.localStorage.setItem('loggedUser', JSON.stringify(response))
+
             dispatch(setUser(response))
             navigate('/')
         } catch (e) {
-            console.error(e.response.data)
+            dispatch(
+                setNotification({
+                    message: `${e.response.data}`,
+                    severity: 'error',
+                })
+            )
+            setTimeout(() => {
+                dispatch(setNotification(null))
+            }, 2000)
         }
     }
 
@@ -66,18 +77,30 @@ const NewUser = ({ gradeList }) => {
             window.localStorage.getItem('step1_data')
         )
         const userObj = { ...credentialsStep1, level: gradeList[level.value] }
-        const response = await usersServices.createNew(userObj)
-        const username = response.username
-        const password = credentialsStep1.password
-        logUser({ username, password })
+        try {
+            const response = await usersServices.createNew(userObj)
+            const username = response.username
+            const password = credentialsStep1.password
+            logUser({ username, password })
 
-        storedStep = 2
-        window.localStorage.setItem('step', 2)
-        setStep(3)
-        setTimeout(() => {
-            window.localStorage.clear()
-            navigate('/')
-        }, 1500)
+            storedStep = 2
+            window.localStorage.setItem('step', 2)
+            setStep(3)
+            setTimeout(() => {
+                window.localStorage.clear()
+                navigate('/')
+            }, 1500)
+        } catch (e) {
+            dispatch(
+                setNotification({
+                    message: `${e.response.data.error}`,
+                    severity: 'error',
+                })
+            )
+            setTimeout(() => {
+                dispatch(setNotification(null))
+            }, 2000)
+        }
     }
 
     return (
@@ -106,6 +129,7 @@ const NewUser = ({ gradeList }) => {
                                 <StepLabel>Complete</StepLabel>
                             </Step>
                         </Stepper>
+                        <Notification></Notification>
                     </Box>
                     {storedStep === 0 && (
                         <Box

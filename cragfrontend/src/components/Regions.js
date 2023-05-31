@@ -34,19 +34,22 @@ const Regions = () => {
     const user = useSelector((state) => state.user)
 
     const dispatch = useDispatch()
-    const favsregions = user ? user.favsRegions : []
-    const favsRegions = favsregions.map((r) => r.toLowerCase())
+    if (user) {
+        console.log('user:', user.favoritesRegions)
+    }
+    const favoritesRegionsRaw = user ? user.favoritesRegions : []
+    const favoritesRegions = favoritesRegionsRaw.map((r) => r.toLowerCase())
 
     const regions =
-        favsRegions === []
+        favoritesRegions === []
             ? allRegions
             : [
-                  ...favsRegions,
-                  ...allRegions.filter((r) => !favsRegions.includes(r)),
+                  ...favoritesRegions,
+                  ...allRegions.filter((r) => !favoritesRegions.includes(r)),
               ]
 
     const isFavourite = (region) => {
-        if (favsRegions.includes(region)) return true
+        if (favoritesRegions.includes(region)) return true
         else {
             return false
         }
@@ -59,11 +62,11 @@ const Regions = () => {
     const handleFav = async (region) => {
         let newFavs = []
         if (!isFavourite(region)) {
-            newFavs = favsRegions.concat(region)
+            newFavs = favoritesRegions.concat(region)
         } else {
-            newFavs = favsRegions.filter((r) => r !== region)
+            newFavs = favoritesRegions.filter((r) => r !== region)
         }
-        const updateduser = { ...user, favsRegions: newFavs }
+        const updateduser = { ...user, favoritesRegions: newFavs }
         dispatch(setUser(updateduser))
         window.localStorage.setItem('loggedUser', JSON.stringify(updateduser))
         await updateFavs(user, newFavs)

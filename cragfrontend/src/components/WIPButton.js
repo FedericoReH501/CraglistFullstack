@@ -21,8 +21,8 @@ const WIPButton = (props) => {
             return null
         }
         if (props.wip) {
-            const updatedWIP = props.wip.filter(
-                (v) => v.name !== props.via.name
+            const updatedWIP = props.user.workInProg.filter(
+                (v) => v.route !== props.via.route_id
             )
             const updatedUser = { ...props.user, workInProg: updatedWIP }
             try {
@@ -38,14 +38,18 @@ const WIPButton = (props) => {
         } else {
             const updatedWIP = props.user.workInProg.concat({ ...props.via })
             let updatedUser = {}
-            if (props.user.completed.find((v) => v.name === props.via.name)) {
-                const updatedCompleted = props.user.completed.filter((v) =>
-                    v.name === props.via.name ? null : v
+            if (
+                props.user.completedRoutes.find(
+                    (element) => element.route === props.via.route_id
+                )
+            ) {
+                const updatedCompleted = props.user.completedRoutes.filter(
+                    (v) => (v.route === props.via.route_id ? null : v)
                 )
                 updatedUser = {
                     ...props.user,
                     workInProg: updatedWIP,
-                    completed: updatedCompleted,
+                    completedRoutes: updatedCompleted,
                 }
             } else {
                 updatedUser = { ...props.user, workInProg: updatedWIP }

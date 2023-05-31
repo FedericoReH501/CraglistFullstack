@@ -9,8 +9,8 @@ import { setNotification } from '../reducers/notificationReducer'
 const Region = (props) => {
     const navigate = useNavigate()
     const user = useSelector((state) => state.user)
-    const favsregions = user ? user.favsRegions : []
-    const favsRegions = favsregions.map((r) => r.toLowerCase())
+    const favoritesRegionsRaw = user ? user.favoritesRegions : []
+    const favoritesRegions = favoritesRegionsRaw.map((r) => r.toLowerCase())
     const dispatch = useDispatch()
 
     const findCrags = (region) => {
@@ -32,12 +32,12 @@ const Region = (props) => {
         }
         let newFavs = []
         if (!isFavourite(region)) {
-            newFavs = favsRegions.concat(region)
+            newFavs = favoritesRegions.concat(region)
         } else {
-            newFavs = favsRegions.filter((r) => r !== region)
+            newFavs = favoritesRegions.filter((r) => r !== region)
         }
         try {
-            const updateduser = { ...user, favsRegions: newFavs }
+            const updateduser = { ...user, favoritesRegions: newFavs }
             await usersServices.updateFavs(updateduser)
             dispatch(setUser(updateduser))
             window.localStorage.setItem(
@@ -58,7 +58,7 @@ const Region = (props) => {
     }
 
     const isFavourite = (region) => {
-        if (favsRegions.includes(region)) return true
+        if (favoritesRegions.includes(region)) return true
         else {
             return false
         }

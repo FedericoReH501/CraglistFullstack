@@ -55,6 +55,7 @@ export const fetchCrags = createAsyncThunk('crags/fetchCrags', async () => {
     console.log('fetching crags')
     const response = await cragsServices.getAll()
     console.log('response', response)
+    window.localStorage.setItem('cragsList', JSON.stringify(response.data))
     return response.data
 })
 export const initializeCrags = () => {

@@ -21,19 +21,20 @@ const Vie = (props) => {
     const selectedCrag = useParams().crag
     const user = useSelector((s) => s.user)
     const region = useParams().region
-    const completed = user ? user.completed : []
+    const completedRoutes = user ? user.completedRoutes : []
     const wip = user ? user.workInProg : []
     const isCompleted = (via) => {
         let result = null
-        completed.forEach((element) => {
-            if (element.name === via.name && element.grade === via.grade) {
-                result = element.how
+        completedRoutes.forEach((element) => {
+            if (element.route === via._id) {
+                result = element.completionType
             }
         })
         return result
     }
     const isWIP = (via) => {
-        if (wip.find((v) => v.name === via.name && v.grade === via.grade)) {
+        console.log('wip', wip)
+        if (wip.find((v) => v.route_id === via._id)) {
             return true
         }
 
@@ -85,9 +86,9 @@ const Vie = (props) => {
                                                             wip={isWIP(v)}
                                                             user={user}
                                                             via={{
-                                                                ...v,
-                                                                crag: crag.name,
-                                                                region: region,
+                                                                route_id: v._id,
+                                                                crag_id:
+                                                                    crag.id,
                                                             }}
                                                         />
                                                     </TableCell>
@@ -98,9 +99,9 @@ const Vie = (props) => {
                                                             )}
                                                             user={user}
                                                             via={{
-                                                                ...v,
-                                                                crag: crag.name,
-                                                                region: region,
+                                                                route_id: v._id,
+                                                                crag_id:
+                                                                    crag.id,
                                                             }}
                                                             wip={wip}
                                                         />

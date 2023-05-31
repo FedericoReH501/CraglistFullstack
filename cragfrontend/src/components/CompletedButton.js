@@ -2,7 +2,6 @@ import { ToggleButton, ToggleButtonGroup, Box } from '@mui/material'
 import FlashIcon from '@mui/icons-material/Bolt'
 import EyeIcon from '@mui/icons-material/RemoveRedEye'
 import BoyIcon from '@mui/icons-material/Boy'
-import { useState } from 'react'
 import usersServices from '../services/users'
 import { useDispatch } from 'react-redux'
 import { setUser } from '../reducers/userReducer'
@@ -24,10 +23,15 @@ const CompletedButton = (props) => {
             return null
         }
         if (props.completed) {
-            const updatedCompleted = props.user.completed.filter(
-                (v) => v.name !== props.via.name
+            console.log('isCompleted')
+
+            const updatedCompleted = props.user.completedRoutes.filter(
+                (v) => v.route !== props.via.route_id
             )
-            const updatedUser = { ...props.user, completed: updatedCompleted }
+            const updatedUser = {
+                ...props.user,
+                completedRoutes: updatedCompleted,
+            }
             try {
                 await usersServices.updateFavs(updatedUser)
                 dispatch(setUser(updatedUser))
@@ -39,24 +43,29 @@ const CompletedButton = (props) => {
                 console.error(e)
             }
         } else {
-            const updatedCompleted = props.user.completed.concat({
-                ...props.via,
-                how: newValue,
+            const updatedCompleted = props.user.completedRoutes.concat({
+                crag: props.via.crag_id,
+                route: props.via.route_id,
+                completionType: newValue,
             })
             let updatedUser = {}
-            if (props.user.workInProg.find((v) => v.name === props.via.name)) {
-                const workInProg = props.user.workInProg.filter((v) =>
-                    v.name === props.via.name ? null : v
+            if (
+                props.user.workInProg.find(
+                    (route) => route._id === props.via.route_id
+                )
+            ) {
+                const workInProg = props.user.workInProg.filter((route) =>
+                    route._id === props.via.route_id ? null : v
                 )
                 updatedUser = {
                     ...props.user,
                     workInProg,
-                    completed: updatedCompleted,
+                    completedRoutes: updatedCompleted,
                 }
             } else {
                 updatedUser = {
                     ...props.user,
-                    completed: updatedCompleted,
+                    completedRoutes: updatedCompleted,
                 }
             }
 
@@ -72,6 +81,7 @@ const CompletedButton = (props) => {
             }
         }
     }
+
     return (
         <Box>
             <ToggleButtonGroup
@@ -82,10 +92,10 @@ const CompletedButton = (props) => {
                 <ToggleButton value={'flash'}>
                     <FlashIcon></FlashIcon>
                 </ToggleButton>
-                <ToggleButton value={'OnSight'}>
+                <ToggleButton value={'onSight'}>
                     <EyeIcon />
                 </ToggleButton>
-                <ToggleButton value={'Normal'}>
+                <ToggleButton value={'normal'}>
                     <BoyIcon />
                 </ToggleButton>
             </ToggleButtonGroup>

@@ -18,7 +18,6 @@ import {
     Route,
     Outlet,
     useNavigate,
-    useParams,
     useLocation,
 } from 'react-router-dom'
 import { setUser } from './reducers/userReducer'
@@ -62,7 +61,6 @@ function App() {
             dispatch(fetchCrags())
         }
     }, [dispatch])
-    console.log(cragsList)
     const location = useLocation()
         .pathname.split('/')
         .filter((x) => x)

@@ -1,4 +1,5 @@
 const express = require('express')
+require('express-async-errors')
 const app = express()
 const middleware = require('./utils/middleware')
 const usersRouter = require('./controllers/users')
@@ -8,7 +9,6 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const logger = require('./utils/logger')
 const config = require('./utils/config')
-const climbookRouter = require('./controllers/climbook')
 const falesiaRouter = require('./controllers/falesia')
 const mongoUrl = config.MONGO_URI
 const bodyParser = require('body-parser')
@@ -24,15 +24,14 @@ app.use(cors())
 app.use(express.json())
 
 app.use(middleware.requestLogger)
-
 app.use(middleware.tokenExtractor)
 
-app.use('/climbook', climbookRouter)
-app.use('/falesia', falesiaRouter)
 app.use('/api/login', loginRouter)
-app.use('/api/user', usersRouter)
+app.use('/falesia', falesiaRouter)
 app.use('/api/crags', cragsRouter)
+app.use('/api/user', usersRouter)
 
 app.use(middleware.errorHendler)
+
 app.use(middleware.unknownEndpoint)
 module.exports = app

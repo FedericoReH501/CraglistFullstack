@@ -27,10 +27,10 @@ loginRouter.post('/', async (request, response) => {
         username: username,
         name: user.name,
         id: user.id,
-        favsRegions: user.favsRegions,
-        completed: user.completed,
+        favoritesRegions: user.favoritesRegions,
+        favoritesCrags: user.favoritesCrags,
+        completedRoutes: user.completedRoutes,
         workInProg: user.workInProg,
-        favsCrags: user.favsCrags,
     })
 })
 

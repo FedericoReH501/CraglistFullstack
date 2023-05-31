@@ -2,7 +2,7 @@ const cragsRouter = require('express').Router()
 const Crag = require('../models/crag')
 
 cragsRouter.get('/', async (request, response) => {
-    const crags = await Crag.find({ region: 'LAZIO' })
+    const crags = await Crag.find({})
     response.status(200).json(crags)
 })
 
