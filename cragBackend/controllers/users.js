@@ -7,7 +7,16 @@ usersRouter.get('/', async (request, response) => {
     /*if(request.user.username !== 'Admin'){
     return response.status(401).json({error:'only the Admin can have the users s list'})
   }*/
-    const users = await User.find({}).populate('favoritesCrags')
+    const users = await User.find({})
+        .populate({
+            path: 'completedRoutes',
+            populate: { path: 'crag', model: 'Crag', select: 'name' },
+        })
+        .populate({
+            path: 'completedRoutes',
+
+            populate: { path: 'route', model: 'Route' },
+        })
     response.status(200).json(users)
 })
 

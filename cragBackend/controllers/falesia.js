@@ -44,15 +44,18 @@ const mongoUploader = async (craglist) => {
                 const via = sector.vie[index]
 
                 const nuovaVia = new Route({ name: via.name, grade: via.grade })
-                vie.push(nuovaVia)
+                const savedVia = await nuovaVia.save()
+                const id = savedVia._id
+                vie.push(id)
             }
 
             const nuovoSettore = new Sector({
                 sectorName: sector.sectorName,
                 vie: vie,
             })
-
-            sectors.push(nuovoSettore)
+            const savedSettore = await nuovoSettore.save()
+            const settoreId = savedSettore._id
+            sectors.push(settoreId)
             vie = []
         }
         const newcrag = new Crag({

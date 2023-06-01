@@ -38,9 +38,10 @@ const userSchema = Schema({
                 type: Schema.Types.ObjectId,
                 ref: 'Crag',
             },
+
             route: {
                 type: Schema.Types.ObjectId,
-                ref: 'Crag.route',
+                ref: 'Route',
             },
             completionType: {
                 type: String,
@@ -56,7 +57,7 @@ const userSchema = Schema({
             },
             route: {
                 type: Schema.Types.ObjectId,
-                ref: 'Crag.route',
+                ref: 'Route',
             },
         },
     ],

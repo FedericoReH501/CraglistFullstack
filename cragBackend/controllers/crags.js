@@ -2,7 +2,13 @@ const cragsRouter = require('express').Router()
 const { Crag } = require('../models/crag')
 
 cragsRouter.get('/', async (request, response) => {
-    const crags = await Crag.find({})
+    const crags = await Crag.find({}).populate({
+        path: 'sectors',
+        populate: {
+            path: 'vie',
+            model: 'Route',
+        },
+    })
     response.status(200).json(crags)
 })
 
@@ -12,7 +18,6 @@ cragsRouter.get('/:region', async (request, response) => {
 })
 
 cragsRouter.post('/', async (request, response) => {
-    console.log('ROUTEEEEEEER')
     const {
         name,
         vie,

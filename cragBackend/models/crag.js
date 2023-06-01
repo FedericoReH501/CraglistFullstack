@@ -4,12 +4,22 @@ const routeSchema = new mongoose.Schema({
     name: { type: String },
     grade: { type: String },
 })
-
+routeSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        delete returnedObject.__v
+    },
+})
 const Route = mongoose.model('Route', routeSchema)
 
 const sectorSchema = new mongoose.Schema({
     sectorName: { type: String },
-    vie: [routeSchema],
+    vie: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Route' }],
+})
+
+routeSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        delete returnedObject.__v
+    },
 })
 
 const Sector = mongoose.model('Sector', sectorSchema)
@@ -17,7 +27,7 @@ const Sector = mongoose.model('Sector', sectorSchema)
 const cragSchema = mongoose.Schema({
     name: String,
     region: String,
-    sectors: [sectorSchema],
+    sectors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Sector' }],
     distance: Number,
     location: {
         type: {
