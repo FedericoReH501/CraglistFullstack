@@ -8,7 +8,6 @@ import { setUser } from '../reducers/userReducer'
 import { setNotification } from '../reducers/notificationReducer'
 const CompletedButton = (props) => {
     const dispatch = useDispatch()
-
     const handleCompleted = async (e, newValue) => {
         if (!props.user) {
             dispatch(
@@ -23,10 +22,8 @@ const CompletedButton = (props) => {
             return null
         }
         if (props.completed) {
-            console.log('isCompleted')
-
             const updatedCompleted = props.user.completedRoutes.filter(
-                (v) => v.route !== props.via.route_id
+                (v) => v.route !== props.via._id
             )
             const updatedUser = {
                 ...props.user,
@@ -44,19 +41,15 @@ const CompletedButton = (props) => {
             }
         } else {
             const updatedCompleted = props.user.completedRoutes.concat({
-                crag: props.via.crag_id,
-                route: props.via.route_id,
+                crag: props.crag,
+                route: props.via._id,
                 completionType: newValue,
             })
             let updatedUser = {}
-            if (
-                props.user.workInProg.find(
-                    (route) => route._id === props.via.route_id
-                )
-            ) {
-                const workInProg = props.user.workInProg.filter((route) =>
-                    route._id === props.via.route_id ? null : v
-                )
+            if (props.isWip) {
+                const workInProg = props.user.workInProg.filter((element) => {
+                    return element.route !== props.via._id
+                })
                 updatedUser = {
                     ...props.user,
                     workInProg,

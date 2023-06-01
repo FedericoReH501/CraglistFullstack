@@ -20,9 +20,9 @@ const WIPButton = (props) => {
             }, 3000)
             return null
         }
-        if (props.wip) {
+        if (props.isWip) {
             const updatedWIP = props.user.workInProg.filter(
-                (v) => v.route !== props.via.route_id
+                (v) => v.route !== props.via._id
             )
             const updatedUser = { ...props.user, workInProg: updatedWIP }
             try {
@@ -36,15 +36,14 @@ const WIPButton = (props) => {
                 console.log(e)
             }
         } else {
-            const updatedWIP = props.user.workInProg.concat({ ...props.via })
+            const updatedWIP = props.user.workInProg.concat({
+                route: props.via._id,
+                crag: props.crag,
+            })
             let updatedUser = {}
-            if (
-                props.user.completedRoutes.find(
-                    (element) => element.route === props.via.route_id
-                )
-            ) {
+            if (props.isCompleted) {
                 const updatedCompleted = props.user.completedRoutes.filter(
-                    (v) => (v.route === props.via.route_id ? null : v)
+                    (v) => (v.route === props.via._id ? null : v)
                 )
                 updatedUser = {
                     ...props.user,
@@ -69,7 +68,7 @@ const WIPButton = (props) => {
     }
 
     return (
-        <ToggleButton value="check" selected={props.wip} onClick={onClick}>
+        <ToggleButton value="check" selected={props.isWip} onClick={onClick}>
             <SportsGymnasticsOutlinedIcon />
         </ToggleButton>
     )

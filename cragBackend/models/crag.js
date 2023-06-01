@@ -5,10 +5,14 @@ const routeSchema = new mongoose.Schema({
     grade: { type: String },
 })
 
+const Route = mongoose.model('Route', routeSchema)
+
 const sectorSchema = new mongoose.Schema({
     sectorName: { type: String },
     vie: [routeSchema],
 })
+
+const Sector = mongoose.model('Sector', sectorSchema)
 
 const cragSchema = mongoose.Schema({
     name: String,
@@ -50,4 +54,6 @@ cragSchema.set('toJSON', {
     },
 })
 
-module.exports = mongoose.model('Crag', cragSchema)
+const Crag = mongoose.model('Crag', cragSchema)
+
+module.exports = { Crag, Route, Sector, sectorSchema, routeSchema }

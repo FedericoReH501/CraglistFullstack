@@ -20,9 +20,15 @@ import Notification from './Notification'
 const Vie = (props) => {
     const selectedCrag = useParams().crag
     const user = useSelector((s) => s.user)
-    const region = useParams().region
     const completedRoutes = user ? user.completedRoutes : []
-    const wip = user ? user.workInProg : []
+    const workInProg = user ? user.workInProg : []
+    const routeIsCompleted = (route) => {
+        if (completedRoutes.find((element) => element.route === route._id)) {
+            return true
+        }
+        return false
+    }
+
     const isCompleted = (via) => {
         let result = null
         completedRoutes.forEach((element) => {
@@ -33,8 +39,7 @@ const Vie = (props) => {
         return result
     }
     const isWIP = (via) => {
-        console.log('wip', wip)
-        if (wip.find((v) => v.route_id === via._id)) {
+        if (workInProg.find((v) => v.route === via._id)) {
             return true
         }
 
@@ -83,27 +88,25 @@ const Vie = (props) => {
                                                     </TableCell>
                                                     <TableCell>
                                                         <WIPButton
-                                                            wip={isWIP(v)}
+                                                            isCompleted={routeIsCompleted(
+                                                                v
+                                                            )}
+                                                            isWip={isWIP(v)}
                                                             user={user}
-                                                            via={{
-                                                                route_id: v._id,
-                                                                crag_id:
-                                                                    crag.id,
-                                                            }}
+                                                            crag={crag.id}
+                                                            via={v}
                                                         />
                                                     </TableCell>
                                                     <TableCell>
                                                         <CompletedButton
+                                                            isWip={isWIP(v)}
                                                             completed={isCompleted(
                                                                 v
                                                             )}
                                                             user={user}
-                                                            via={{
-                                                                route_id: v._id,
-                                                                crag_id:
-                                                                    crag.id,
-                                                            }}
-                                                            wip={wip}
+                                                            crag={crag.id}
+                                                            via={v}
+                                                            wip={workInProg}
                                                         />
                                                     </TableCell>
                                                 </TableRow>

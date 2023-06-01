@@ -1,5 +1,5 @@
 const cragsRouter = require('express').Router()
-const Crag = require('../models/crag')
+const { Crag } = require('../models/crag')
 
 cragsRouter.get('/', async (request, response) => {
     const crags = await Crag.find({})

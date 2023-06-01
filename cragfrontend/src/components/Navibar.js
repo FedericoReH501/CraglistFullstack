@@ -5,11 +5,11 @@ import { setUser } from '../reducers/userReducer'
 
 const Navibar = () => {
     const user = useSelector((s) => s.user)
-
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const logOut = () => {
-        window.localStorage.clear()
+        navigate('/')
+        window.localStorage.removeItem('user')
         dispatch(setUser(null))
     }
     return (

@@ -76,7 +76,7 @@ const NewUser = ({ gradeList }) => {
         const credentialsStep1 = JSON.parse(
             window.localStorage.getItem('step1_data')
         )
-        const userObj = { ...credentialsStep1, level: gradeList[level.value] }
+        const userObj = { ...credentialsStep1, level }
         try {
             const response = await usersServices.createNew(userObj)
             const username = response.username

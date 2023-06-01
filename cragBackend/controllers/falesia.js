@@ -1,14 +1,20 @@
 const falesiaRouter = require('express').Router()
 const axios = require('axios')
 const { request, response } = require('express')
-const Crag = require('../models/crag')
-const allRegions = [
+const {
+    Crag,
+    Route,
+    Sector,
+    sectorSchema,
+    routeSchema,
+} = require('../models/crag')
+
+/*const allRegions = [
     16, 43, 45, 25, 30, 21, 3, 22, 26, 47, 46, 36, 42, 38, 32, 33, 27, 19, 44,
     37,
-]
-
+]*/
+allRegions = [16]
 let array = []
-
 const fetcher = async (link) => {
     for (let index = 0; index < allRegions.length; index++) {
         const element = allRegions[index]
@@ -24,22 +30,44 @@ const cragsFetcher = async (link) => {
 }
 
 const mongoUploader = async (craglist) => {
-    for (let index = 0; index < craglist.length; index++) {
-        const body = craglist[index]
-        console.log('MONGO UPLOADER!!!!:distance', body.distance)
-        const crag = new Crag({
-            name: body.name,
-            region: body.region,
-            sectors: body.sectors,
-            access: body.access,
-            exposure: body.exposure,
-            kind: body.kind,
-            parkingLocation: body.parkingLocation,
-            location: body.location,
-            distance: body.distance,
+    for (let index = 3; index < 6; index++) {
+        //per ogni crag
+        const crag = craglist[index]
+        let sectors = []
+        let vie = []
+        for (let index = 0; index < crag.sectors.length; index++) {
+            //per ogni settore
+            const sector = crag.sectors[index]
+
+            for (let index = 0; index < sector.vie.length; index++) {
+                //per ogni via
+                const via = sector.vie[index]
+
+                const nuovaVia = new Route({ name: via.name, grade: via.grade })
+                vie.push(nuovaVia)
+            }
+
+            const nuovoSettore = new Sector({
+                sectorName: sector.sectorName,
+                vie: vie,
+            })
+
+            sectors.push(nuovoSettore)
+            vie = []
+        }
+        const newcrag = new Crag({
+            name: crag.name,
+            region: crag.region,
+            sectors: sectors,
+            access: crag.access,
+            exposure: crag.exposure,
+            kind: crag.kind,
+            parkingLocation: crag.parkingLocation,
+            location: crag.location,
+            distance: crag.distance,
         })
-        console.log('MONGO UPLOADER!!!!:distance', crag.distance)
-        await crag.save()
+        await newcrag.save()
+        sectors = []
     }
     return { saved: 'saved' }
 }

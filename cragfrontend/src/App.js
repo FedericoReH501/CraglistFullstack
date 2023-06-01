@@ -7,11 +7,10 @@ import LoginForm from './components/LoginForm'
 import NewUser from './components/NewUser'
 
 import usersServices from './services/users'
-import { fetchCrags, initializeCrags, setCrags } from './reducers/CragsReducer'
+import { fetchCrags, setCrags } from './reducers/CragsReducer'
 import FalesiaScraper from './scraper/FalesiaScraper'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useMemo } from 'react'
-import cragsServices from './services/crags'
 
 import {
     Routes,
@@ -25,12 +24,13 @@ import Vie from './components/Vie'
 import Navibar from './components/Navibar'
 import BreadCrumb from './components/BreadCrumbs'
 import UserShow from './components/UserShow'
+import CompletedRoutes from './components/CompletedRoutes'
 
 function App() {
     const navigate = useNavigate()
     const cragsList = useSelector((state) => state.crags.cragsList)
-    const isLoading = useSelector((state) => state.crags.isLoading)
-    const error = useSelector((state) => state.crags.error)
+    //const isLoading = useSelector((state) => state.crags.isLoading)
+    //const error = useSelector((state) => state.crags.error)
     const dispatch = useDispatch()
     const gradeList = useMemo(() => {
         const array = []
@@ -94,6 +94,7 @@ function App() {
                             element={
                                 <Box>
                                     <UserShow></UserShow>
+                                    <CompletedRoutes />
                                 </Box>
                             }
                         />
