@@ -9,11 +9,11 @@ const {
     routeSchema,
 } = require('../models/crag')
 
-/*const allRegions = [
+const allRegions = [
     16, 43, 45, 25, 30, 21, 3, 22, 26, 47, 46, 36, 42, 38, 32, 33, 27, 19, 44,
     37,
-]*/
-allRegions = [16]
+]
+
 let array = []
 const fetcher = async (link) => {
     for (let index = 0; index < allRegions.length; index++) {
@@ -30,7 +30,7 @@ const cragsFetcher = async (link) => {
 }
 
 const mongoUploader = async (craglist) => {
-    for (let index = 3; index < 6; index++) {
+    for (let index = 0; index < craglist.length; index++) {
         //per ogni crag
         const crag = craglist[index]
         let sectors = []

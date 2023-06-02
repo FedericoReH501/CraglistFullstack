@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { saveAs } from 'file-saver'
-
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
 function Crag(
     name,
     region,
@@ -264,11 +265,47 @@ const FalesiaScraper = () => {
         })
         console.log(response.data)
     }
-
-    console.log(
-        'distance test:!!!',
-        calculateDistance(13.8144, 41.9694, 14.1395, 41.9837)
-    )
+    const cragsCorrect = JSON.parse(window.localStorage.getItem('cragList'))
+    let cragsWrong = useSelector((s) => s.crags.cragsList)
+    const [missingCrags, setMissing] = useState([])
+    let missingC = []
+    const check = async () => {
+        setMissing([])
+        let correctName = []
+        let wrongName = []
+        let missingIndex = []
+        for (let index = 0; index < cragsCorrect.length; index++) {
+            const element = cragsCorrect[index]
+            if (correctName.includes(element.name)) {
+                console.log('doppione: ', element.name)
+                cragsWrong = cragsWrong.filter(
+                    (c) => c.name !== element.name && c.name !== 'Val Rosandra'
+                )
+            } else {
+                correctName.push(element.name)
+            }
+        }
+        console.log('correctList:', cragsCorrect)
+        console.log('wrongList:', cragsWrong)
+        cragsWrong.forEach((c) => {
+            wrongName.push(c.name)
+        })
+        for (let index = 0; index < cragsCorrect.length; index++) {
+            const element = cragsCorrect[index]
+            if (!wrongName.includes(element.name)) {
+                console.log('missing:', element.name)
+                console.log('missingCrags firste: ', missingC)
+                console.log('element', element)
+                missingC.push(element)
+                console.log('missingCrags', missingC)
+            }
+        }
+        const response = await axios.post('falesia/createDb', {
+            cragList: missingC,
+        })
+        console.log('saved!')
+        console.log(response)
+    }
 
     return (
         <div
@@ -287,6 +324,7 @@ const FalesiaScraper = () => {
             </form>
             <button onClick={fileCreator}>save as file</button>
             <button onClick={dataUploader}>Upload in mongo db</button>
+            <button onClick={check}>check</button>
         </div>
     )
 }

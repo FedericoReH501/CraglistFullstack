@@ -48,6 +48,7 @@ function App() {
     useEffect(() => {
         const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'))
         const cragsList = JSON.parse(window.localStorage.getItem('cragsList'))
+        console.log(cragsList)
 
         if (loggedUser) {
             dispatch(setUser(loggedUser))

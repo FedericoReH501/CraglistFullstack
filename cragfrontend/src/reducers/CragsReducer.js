@@ -24,8 +24,6 @@ const cragsSlice = createSlice({
                     cragsList: [],
                     error: null,
                 }
-                state.isLoading = true
-                state.error = null
             })
             .addCase(fetchCrags.fulfilled, (state, action) => {
                 console.log('FULLFILLED!!')
@@ -34,18 +32,6 @@ const cragsSlice = createSlice({
                     cragsList: action.payload,
                     error: null,
                 }
-                state.isLoading = false
-                state.cragsList = action.payload
-            })
-            .addCase(fetchCrags.rejected, (state, action) => {
-                console.log('ERROR!!')
-                return {
-                    isLoading: false,
-                    cragsList: [],
-                    error: action.error.message,
-                }
-                state.isLoading = false
-                state.error = action.error.message
             })
     },
 })
@@ -53,10 +39,15 @@ export const { setCrags } = cragsSlice.actions
 
 export const fetchCrags = createAsyncThunk('crags/fetchCrags', async () => {
     console.log('fetching crags')
-    const response = await cragsServices.getAll()
-    console.log('response', response)
-    window.localStorage.setItem('cragsList', JSON.stringify(response.data))
-    return response.data
+    try {
+        const response = await cragsServices.getAll()
+        window.localStorage.setItem('cragsList', JSON.stringify(response.data))
+        console.log('response', response)
+        return response.data
+    } catch (e) {
+        console.log('in the catch blocks')
+        return e
+    }
 })
 export const initializeCrags = () => {
     return async (dispatch) => {
