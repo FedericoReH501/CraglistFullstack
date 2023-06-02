@@ -10,12 +10,13 @@ usersRouter.get('/', async (request, response) => {
     const users = await User.find({})
         .populate({
             path: 'completedRoutes',
-            populate: { path: 'crag', model: 'Crag', select: 'name' },
+
+            populate: { path: 'route', model: 'Route' },
         })
         .populate({
             path: 'completedRoutes',
 
-            populate: { path: 'route', model: 'Route' },
+            populate: { path: 'crag', model: 'Crag', select: 'name region' },
         })
     response.status(200).json(users)
 })
