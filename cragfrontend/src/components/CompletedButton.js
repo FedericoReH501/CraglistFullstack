@@ -23,18 +23,21 @@ const CompletedButton = (props) => {
         }
         if (props.completed) {
             const updatedCompleted = props.user.completedRoutes.filter(
-                (v) => v.route !== props.via._id
+                (v) => v.route._id !== props.via._id
             )
             const updatedUser = {
                 ...props.user,
                 completedRoutes: updatedCompleted,
             }
             try {
-                await usersServices.updateFavs(updatedUser)
-                dispatch(setUser(updatedUser))
+                const response = await usersServices.updateFavs(updatedUser)
+                dispatch(setUser({ token: props.user.token, ...response.data }))
                 window.localStorage.setItem(
                     'loggedUser',
-                    JSON.stringify(updatedUser)
+                    JSON.stringify({
+                        token: props.user.token,
+                        ...response.data,
+                    })
                 )
             } catch (e) {
                 console.error(e)
@@ -65,11 +68,22 @@ const CompletedButton = (props) => {
 
             try {
                 const response = await usersServices.updateFavs(updatedUser)
-                dispatch(setUser(response.data))
+                dispatch(
+                    setUser({
+                        ...response.data,
+                        token: props.user.token,
+                    })
+                )
                 window.localStorage.setItem(
                     'loggedUser',
-                    JSON.stringify(updatedUser)
+                    JSON.stringify({
+                        ...response.data,
+                        token: props.user.token,
+                    })
                 )
+                console.log('updated user: ')
+                console.log(updatedUser.completedRoutes)
+                console.log('----------------')
             } catch (e) {
                 console.error(e)
             }

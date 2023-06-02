@@ -10,12 +10,18 @@ usersRouter.get('/', async (request, response) => {
     const users = await User.find({})
         .populate({
             path: 'completedRoutes',
-
             populate: { path: 'route', model: 'Route' },
         })
         .populate({
             path: 'completedRoutes',
-
+            populate: { path: 'crag', model: 'Crag', select: 'name region' },
+        })
+        .populate({
+            path: 'workInProg',
+            populate: { path: 'route', model: 'Route' },
+        })
+        .populate({
+            path: 'workInProg',
             populate: { path: 'crag', model: 'Crag', select: 'name region' },
         })
     response.status(200).json(users)
@@ -61,6 +67,15 @@ usersRouter.put('/:id', userExtractor, async (request, response) => {
 
             populate: { path: 'crag', model: 'Crag', select: 'name region' },
         })
+        .populate({
+            path: 'workInProg',
+            populate: { path: 'route', model: 'Route' },
+        })
+        .populate({
+            path: 'workInProg',
+            populate: { path: 'crag', model: 'Crag', select: 'name region' },
+        })
+
     return response.status(201).json(result)
 })
 

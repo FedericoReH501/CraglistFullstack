@@ -39,7 +39,7 @@ const Vie = (props) => {
         return result
     }
     const isWIP = (via) => {
-        if (workInProg.find((v) => v.route === via._id)) {
+        if (workInProg.find((v) => v.route._id === via._id)) {
             return true
         }
 

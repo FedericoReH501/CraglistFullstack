@@ -26,11 +26,14 @@ const WIPButton = (props) => {
             )
             const updatedUser = { ...props.user, workInProg: updatedWIP }
             try {
-                await usersServices.updateFavs(updatedUser)
-                dispatch(setUser(updatedUser))
+                const response = await usersServices.updateFavs(updatedUser)
+                dispatch(setUser({ token: props.user.token, ...response.data }))
                 window.localStorage.setItem(
                     'loggedUser',
-                    JSON.stringify(updatedUser)
+                    JSON.stringify({
+                        token: props.user.token,
+                        ...response.data,
+                    })
                 )
             } catch (e) {
                 console.log(e)
@@ -55,13 +58,16 @@ const WIPButton = (props) => {
                 updatedUser = { ...props.user, workInProg: updatedWIP }
             }
             try {
-                await usersServices.updateFavs(updatedUser)
+                const response = await usersServices.updateFavs(updatedUser)
 
                 window.localStorage.setItem(
                     'loggedUser',
-                    JSON.stringify(updatedUser)
+                    JSON.stringify({
+                        token: props.user.token,
+                        ...response.data,
+                    })
                 )
-                dispatch(setUser(updatedUser))
+                dispatch(setUser({ token: props.user.token, ...response.data }))
             } catch (e) {
                 console.log(e)
             }
