@@ -5,7 +5,7 @@ import Crags from './components/Crags'
 import Filter from './components/Filter'
 import LoginForm from './components/LoginForm'
 import NewUser from './components/NewUser'
-
+import WipRoutes from './components/WipRoutes'
 import usersServices from './services/users'
 import { fetchCrags, setCrags } from './reducers/CragsReducer'
 import FalesiaScraper from './scraper/FalesiaScraper'
@@ -97,6 +97,7 @@ function App() {
                                 <Box>
                                     <UserShow></UserShow>
                                     <CompletedRoutes />
+                                    <WipRoutes></WipRoutes>
                                 </Box>
                             }
                         />
