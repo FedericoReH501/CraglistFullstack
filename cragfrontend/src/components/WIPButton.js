@@ -22,7 +22,7 @@ const WIPButton = (props) => {
         }
         if (props.isWip) {
             const updatedWIP = props.user.workInProg.filter(
-                (v) => v.route !== props.via._id
+                (v) => v.route._id !== props.via._id
             )
             const updatedUser = { ...props.user, workInProg: updatedWIP }
             try {
@@ -47,7 +47,7 @@ const WIPButton = (props) => {
             let updatedUser = {}
             if (props.isCompleted) {
                 const updatedCompleted = props.user.completedRoutes.filter(
-                    (v) => (v.route === props.via._id ? null : v)
+                    (v) => (v.route._id === props.via._id ? null : v)
                 )
                 updatedUser = {
                     ...props.user,

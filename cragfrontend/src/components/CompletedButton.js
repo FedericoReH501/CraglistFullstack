@@ -52,7 +52,7 @@ const CompletedButton = (props) => {
             let updatedUser = {}
             if (props.isWip) {
                 const workInProg = props.user.workInProg.filter((element) => {
-                    return element.route !== props.via._id
+                    return element.route._id !== props.via._id
                 })
                 updatedUser = {
                     ...props.user,
