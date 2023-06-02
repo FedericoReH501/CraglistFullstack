@@ -35,7 +35,7 @@ const Regions = () => {
 
     const dispatch = useDispatch()
     if (user) {
-        console.log('user:', user.favoritesRegions)
+        console.log('user:', user)
     }
     const favoritesRegionsRaw = user ? user.favoritesRegions : []
     const favoritesRegions = favoritesRegionsRaw.map((r) => r.toLowerCase())

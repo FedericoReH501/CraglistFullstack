@@ -55,7 +55,6 @@ const cragSchema = mongoose.Schema({
 
 cragSchema.index({ location: '2dsphere' })
 cragSchema.index({ parkingLocation: '2dsphere' })
-
 cragSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         delete returnedObject.__v

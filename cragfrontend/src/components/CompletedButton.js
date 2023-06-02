@@ -4,7 +4,7 @@ import EyeIcon from '@mui/icons-material/RemoveRedEye'
 import BoyIcon from '@mui/icons-material/Boy'
 import usersServices from '../services/users'
 import { useDispatch } from 'react-redux'
-import { setUser } from '../reducers/userReducer'
+import { setUser, updateUser } from '../reducers/userReducer'
 import { setNotification } from '../reducers/notificationReducer'
 const CompletedButton = (props) => {
     const dispatch = useDispatch()
@@ -67,23 +67,7 @@ const CompletedButton = (props) => {
             }
 
             try {
-                const response = await usersServices.updateFavs(updatedUser)
-                dispatch(
-                    setUser({
-                        ...response.data,
-                        token: props.user.token,
-                    })
-                )
-                window.localStorage.setItem(
-                    'loggedUser',
-                    JSON.stringify({
-                        ...response.data,
-                        token: props.user.token,
-                    })
-                )
-                console.log('updated user: ')
-                console.log(updatedUser.completedRoutes)
-                console.log('----------------')
+                dispatch(updateUser(updateUser))
             } catch (e) {
                 console.error(e)
             }

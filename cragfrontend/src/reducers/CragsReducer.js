@@ -18,7 +18,6 @@ const cragsSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchCrags.pending, (state) => {
-                console.log('PENIDIIIING!!')
                 return {
                     isLoading: true,
                     cragsList: [],
@@ -33,6 +32,13 @@ const cragsSlice = createSlice({
                     error: null,
                 }
             })
+            .addCase(fetchCrags.rejected, (state, action) => {
+                return {
+                    isLoading: false,
+                    cragsList: [],
+                    error: action.payload,
+                }
+            })
     },
 })
 export const { setCrags } = cragsSlice.actions
@@ -42,11 +48,9 @@ export const fetchCrags = createAsyncThunk('crags/fetchCrags', async () => {
     try {
         const response = await cragsServices.getAll()
         window.localStorage.setItem('cragsList', JSON.stringify(response.data))
-        console.log('response', response)
         return response.data
     } catch (e) {
-        console.log('in the catch blocks')
-        return e
+        return rejectWithValue(e.response.data)
     }
 })
 export const initializeCrags = () => {
@@ -55,4 +59,5 @@ export const initializeCrags = () => {
         dispatch(setCrags(cragsList))
     }
 }
+
 export default cragsSlice.reducer
