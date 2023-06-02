@@ -47,7 +47,7 @@ const Vie = (props) => {
     }
 
     const crag = props.cragsList.find((c) => c.name === selectedCrag)
-
+    console.log(crag)
     if (crag) {
         return (
             <Slide in={true} direction="up" mountOnEnter unmountOnExit>
@@ -93,7 +93,7 @@ const Vie = (props) => {
                                                             )}
                                                             isWip={isWIP(v)}
                                                             user={user}
-                                                            crag={crag.id}
+                                                            crag={crag._id}
                                                             via={v}
                                                         />
                                                     </TableCell>
@@ -104,7 +104,7 @@ const Vie = (props) => {
                                                                 v
                                                             )}
                                                             user={user}
-                                                            crag={crag.id}
+                                                            crag={crag._id}
                                                             via={v}
                                                             wip={workInProg}
                                                         />

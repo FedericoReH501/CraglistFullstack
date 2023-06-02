@@ -53,7 +53,9 @@ function App() {
         if (loggedUser) {
             dispatch(setUser(loggedUser))
             usersServices.setToken(loggedUser.token)
-            console.log('user on Localstorage')
+            console.log('user on Localstorage: ')
+            console.log(loggedUser)
+            console.log('--------------')
         }
         if (cragsList) {
             console.log('Craglist on Localstorage')

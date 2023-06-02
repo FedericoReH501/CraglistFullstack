@@ -9,7 +9,7 @@ const Navibar = () => {
     const dispatch = useDispatch()
     const logOut = () => {
         navigate('/')
-        window.localStorage.removeItem('user')
+        window.localStorage.removeItem('loggedUser')
         dispatch(setUser(null))
     }
     return (

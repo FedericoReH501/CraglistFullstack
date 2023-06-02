@@ -51,8 +51,18 @@ usersRouter.put('/:id', userExtractor, async (request, response) => {
     const result = await User.findByIdAndUpdate(userId, request.body, {
         new: true,
     })
+        .populate({
+            path: 'completedRoutes',
 
-    return response.status(204).end()
+            populate: { path: 'route', model: 'Route' },
+        })
+        .populate({
+            path: 'completedRoutes',
+
+            populate: { path: 'crag', model: 'Crag', select: 'name region' },
+        })
+
+    return response.status(204).json(result)
 })
 
 module.exports = usersRouter
