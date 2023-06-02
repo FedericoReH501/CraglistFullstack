@@ -23,7 +23,9 @@ const Vie = (props) => {
     const completedRoutes = user ? user.completedRoutes : []
     const workInProg = user ? user.workInProg : []
     const routeIsCompleted = (route) => {
-        if (completedRoutes.find((element) => element.route === route._id)) {
+        if (
+            completedRoutes.find((element) => element.route._id === route._id)
+        ) {
             return true
         }
         return false

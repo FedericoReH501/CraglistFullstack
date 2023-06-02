@@ -34,7 +34,6 @@ const WIPButton = (props) => {
             })
             let updatedUser = {}
             if (props.isCompleted) {
-                console.log('iscompleted!!!')
                 const updatedCompleted = props.user.completedRoutes.filter(
                     (v) => v.route._id !== props.via._id
                 )
