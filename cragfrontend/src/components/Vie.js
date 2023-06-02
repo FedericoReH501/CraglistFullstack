@@ -47,7 +47,7 @@ const Vie = (props) => {
     }
 
     const crag = props.cragsList.find((c) => c.name === selectedCrag)
-    console.log(crag)
+
     if (crag) {
         return (
             <Slide in={true} direction="up" mountOnEnter unmountOnExit>
