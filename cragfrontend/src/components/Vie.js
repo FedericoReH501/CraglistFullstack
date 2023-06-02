@@ -94,6 +94,7 @@ const Vie = (props) => {
                                                             isWip={isWIP(v)}
                                                             user={user}
                                                             crag={crag._id}
+                                                            sector={s._id}
                                                             via={v}
                                                         />
                                                     </TableCell>
@@ -105,6 +106,7 @@ const Vie = (props) => {
                                                             )}
                                                             user={user}
                                                             crag={crag._id}
+                                                            sector={s._id}
                                                             via={v}
                                                             wip={workInProg}
                                                         />

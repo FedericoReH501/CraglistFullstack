@@ -42,6 +42,7 @@ const CompletedButton = (props) => {
         } else {
             const updatedCompleted = props.user.completedRoutes.concat({
                 crag: props.crag,
+                sector: props.sector,
                 route: props.via._id,
                 completionType: newValue,
             })
@@ -63,8 +64,8 @@ const CompletedButton = (props) => {
             }
 
             try {
-                await usersServices.updateFavs(updatedUser)
-                dispatch(setUser(updatedUser))
+                const response = await usersServices.updateFavs(updatedUser)
+                dispatch(setUser(response.data))
                 window.localStorage.setItem(
                     'loggedUser',
                     JSON.stringify(updatedUser)

@@ -61,7 +61,6 @@ usersRouter.put('/:id', userExtractor, async (request, response) => {
 
             populate: { path: 'crag', model: 'Crag', select: 'name region' },
         })
-
     return response.status(201).json(result)
 })
 

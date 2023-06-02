@@ -38,7 +38,10 @@ const userSchema = Schema({
                 type: Schema.Types.ObjectId,
                 ref: 'Crag',
             },
-
+            sector: {
+                type: Schema.Types.ObjectId,
+                ref: 'Sector',
+            },
             route: {
                 type: Schema.Types.ObjectId,
                 ref: 'Route',

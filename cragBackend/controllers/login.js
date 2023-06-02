@@ -6,16 +6,6 @@ const User = require('../models/user')
 loginRouter.post('/', async (request, response) => {
     const { username, password } = request.body
     const user = await User.findOne({ username })
-        .populate({
-            path: 'completedRoutes',
-
-            populate: { path: 'route', model: 'Route' },
-        })
-        .populate({
-            path: 'completedRoutes',
-
-            populate: { path: 'crag', model: 'Crag', select: 'name region' },
-        })
 
     const passwordCorrect =
         user === null

@@ -38,6 +38,7 @@ const WIPButton = (props) => {
         } else {
             const updatedWIP = props.user.workInProg.concat({
                 route: props.via._id,
+                sector: props.sector,
                 crag: props.crag,
             })
             let updatedUser = {}
