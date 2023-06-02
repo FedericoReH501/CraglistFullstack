@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, isRejected } from '@reduxjs/toolkit'
 import usersServices from '../services/users'
 const userSlice = createSlice({
     name: 'user',
@@ -13,19 +13,17 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(updateUser.fulfilled, (state, action) => {
-            console.log('updated!')
-            console.log(action.payload)
             window.localStorage.setItem(
                 'loggedUser',
                 JSON.stringify({
                     token: state.token,
                     ...action.payload,
                 })
-            ) /*
+            )
             return {
                 token: state.token,
                 ...action.payload,
-            }*/
+            }
         })
     },
 })
@@ -36,7 +34,9 @@ export const updateUser = createAsyncThunk(
         try {
             const response = await usersServices.updateFavs(object)
             return response.data
-        } catch (e) {}
+        } catch (e) {
+            reject()
+        }
     }
 )
 

@@ -2,7 +2,7 @@ import { ToggleButton } from '@mui/material'
 import SportsGymnasticsOutlinedIcon from '@mui/icons-material/SportsGymnasticsOutlined'
 import usersServices from '../services/users'
 import { useDispatch } from 'react-redux'
-import { setUser } from '../reducers/userReducer'
+import { setUser, updateUser } from '../reducers/userReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
 const WIPButton = (props) => {
@@ -25,19 +25,7 @@ const WIPButton = (props) => {
                 (v) => v.route._id !== props.via._id
             )
             const updatedUser = { ...props.user, workInProg: updatedWIP }
-            try {
-                const response = await usersServices.updateFavs(updatedUser)
-                dispatch(setUser({ token: props.user.token, ...response.data }))
-                window.localStorage.setItem(
-                    'loggedUser',
-                    JSON.stringify({
-                        token: props.user.token,
-                        ...response.data,
-                    })
-                )
-            } catch (e) {
-                console.log(e)
-            }
+            dispatch(updateUser(updatedUser))
         } else {
             const updatedWIP = props.user.workInProg.concat({
                 route: props.via._id,
@@ -46,8 +34,9 @@ const WIPButton = (props) => {
             })
             let updatedUser = {}
             if (props.isCompleted) {
+                console.log('iscompleted!!!')
                 const updatedCompleted = props.user.completedRoutes.filter(
-                    (v) => (v.route._id === props.via._id ? null : v)
+                    (v) => v.route._id !== props.via._id
                 )
                 updatedUser = {
                     ...props.user,
@@ -57,20 +46,7 @@ const WIPButton = (props) => {
             } else {
                 updatedUser = { ...props.user, workInProg: updatedWIP }
             }
-            try {
-                const response = await usersServices.updateFavs(updatedUser)
-
-                window.localStorage.setItem(
-                    'loggedUser',
-                    JSON.stringify({
-                        token: props.user.token,
-                        ...response.data,
-                    })
-                )
-                dispatch(setUser({ token: props.user.token, ...response.data }))
-            } catch (e) {
-                console.log(e)
-            }
+            dispatch(updateUser(updatedUser))
         }
     }
 

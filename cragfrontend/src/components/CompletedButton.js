@@ -29,19 +29,8 @@ const CompletedButton = (props) => {
                 ...props.user,
                 completedRoutes: updatedCompleted,
             }
-            try {
-                const response = await usersServices.updateFavs(updatedUser)
-                dispatch(setUser({ token: props.user.token, ...response.data }))
-                window.localStorage.setItem(
-                    'loggedUser',
-                    JSON.stringify({
-                        token: props.user.token,
-                        ...response.data,
-                    })
-                )
-            } catch (e) {
-                console.error(e)
-            }
+
+            dispatch(updateUser(updatedUser))
         } else {
             const updatedCompleted = props.user.completedRoutes.concat({
                 crag: props.crag,
@@ -66,11 +55,7 @@ const CompletedButton = (props) => {
                 }
             }
 
-            try {
-                dispatch(updateUser(updateUser))
-            } catch (e) {
-                console.error(e)
-            }
+            dispatch(updateUser(updatedUser))
         }
     }
 
