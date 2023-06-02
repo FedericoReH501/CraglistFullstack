@@ -32,7 +32,7 @@ const Vie = (props) => {
     const isCompleted = (via) => {
         let result = null
         completedRoutes.forEach((element) => {
-            if (element.route === via._id) {
+            if (element.route._id === via._id) {
                 result = element.completionType
             }
         })
