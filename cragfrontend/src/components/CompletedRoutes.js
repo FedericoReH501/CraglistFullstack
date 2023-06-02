@@ -47,9 +47,6 @@ const CompletedRoutes = (props) => {
     }
     if (user) {
         console.log(user.completedRoutes)
-        user.completedRoutes.forEach((e) => {
-            console.log(e._id)
-        })
     }
 
     return (
