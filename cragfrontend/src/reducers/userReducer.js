@@ -32,7 +32,9 @@ export const updateUser = createAsyncThunk(
     'user/updateUser',
     async (object) => {
         console.log('updating!!')
-        console.log('recived user:', object)
+        console.log('USER REDUCER:')
+        console.log('recived :', object)
+        console.log('---------')
         try {
             const response = await usersServices.updateFavs(object)
             return response.data

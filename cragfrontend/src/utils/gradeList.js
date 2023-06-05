@@ -44,4 +44,18 @@ export const isLevelUp = (routeLv, userLv) => {
     return routeLv > userLv ? true : false
 }
 
+export const levelFind = (completed, newLv) => {
+    let bestGrade = 0
+
+    completed.forEach((element) => {
+        const grade = element.route.grade
+        if (grade > bestGrade) {
+            bestGrade = grade
+        }
+    })
+
+    return bestGrade
+}
+export const leveCheck = (completed) => {}
+
 export default gradeList

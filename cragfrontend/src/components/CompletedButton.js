@@ -5,10 +5,11 @@ import BoyIcon from '@mui/icons-material/Boy'
 import { useDispatch } from 'react-redux'
 import { updateUser } from '../reducers/userReducer'
 import { setNotification } from '../reducers/notificationReducer'
-import gradeList, { numLevel, isLevelUp } from '../utils/gradeList'
+import gradeList, { numLevel, isLevelUp, levelFind } from '../utils/gradeList'
 
 const CompletedButton = (props) => {
     const dispatch = useDispatch()
+    const numericGrade = numLevel(props.via.grade)
     const handleCompleted = async (e, newValue) => {
         if (!props.user) {
             dispatch(
@@ -24,12 +25,10 @@ const CompletedButton = (props) => {
         }
 
         if (props.completed) {
-            console.log('already completed')
-            console.log('before: ', props.user.completedRoutes.length)
             const updatedCompleted = props.user.completedRoutes.filter(
                 (v) => v.route._id !== props.via._id
             )
-            console.log('after: ', updatedCompleted.length)
+
             const updatedUser = {
                 ...props.user,
                 completedRoutes: updatedCompleted,
@@ -59,7 +58,22 @@ const CompletedButton = (props) => {
                     completedRoutes: updatedCompleted,
                 }
             }
-
+            if (
+                isLevelUp(numericGrade, levelFind(props.user.completedRoutes))
+            ) {
+                console.log('is Level up')
+                console.log('___________')
+                updatedUser = { ...updatedUser, level: numericGrade }
+                dispatch(
+                    setNotification({
+                        message: `Congratulation, Level Up!`,
+                        severity: 'success',
+                    })
+                )
+                setTimeout(() => {
+                    dispatch(setNotification(null))
+                }, 2500)
+            }
             dispatch(updateUser(updatedUser))
         }
     }
