@@ -22,6 +22,7 @@ import { useDispatch } from 'react-redux'
 import { setUser } from '../reducers/userReducer'
 import Notification from './Notification'
 import { setNotification } from '../reducers/notificationReducer'
+import gradeList, { numLevel, isLevelUp } from '../utils/gradeList'
 const NewUser = ({ gradeList }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
