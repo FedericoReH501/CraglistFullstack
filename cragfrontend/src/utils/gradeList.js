@@ -41,21 +41,36 @@ export const numLevel = (stringLv) => {
 }
 
 export const isLevelUp = (routeLv, userLv) => {
+    console.log('level up: ', routeLv)
+    console.log('user Level', userLv)
     return routeLv > userLv ? true : false
 }
-
-export const levelFind = (completed, newLv) => {
+export const isLevelDown = (userLv, completed, route) => {
+    const list = completed.filter((e) => e.route._id !== route._id)
+    const completedGrade = completedGradeList(list).sort()
+    console.log(completedGrade.slice(-1), '-vs-', userLv)
+    const result = completedGrade.slice(-1) < userLv
+    return result
+}
+const completedGradeList = (completed) => {
+    let list = []
+    completed.forEach((element) => list.push(numLevel(element.route.grade)))
+    return list
+}
+export const levelFind = (completed) => {
     let bestGrade = 0
 
     completed.forEach((element) => {
-        const grade = element.route.grade
+        const grade = numLevel(element.route.grade)
+
         if (grade > bestGrade) {
             bestGrade = grade
         }
     })
-
+    console.log('bestgrade: ', bestGrade)
     return bestGrade
 }
+
 export const leveCheck = (completed) => {}
 
 export default gradeList

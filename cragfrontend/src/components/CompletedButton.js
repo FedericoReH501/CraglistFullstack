@@ -5,9 +5,15 @@ import BoyIcon from '@mui/icons-material/Boy'
 import { useDispatch } from 'react-redux'
 import { updateUser } from '../reducers/userReducer'
 import { setNotification } from '../reducers/notificationReducer'
-import gradeList, { numLevel, isLevelUp, levelFind } from '../utils/gradeList'
+import gradeList, {
+    numLevel,
+    isLevelUp,
+    levelFind,
+    isLevelDown,
+} from '../utils/gradeList'
 
 const CompletedButton = (props) => {
+    console.log(gradeList[13])
     const dispatch = useDispatch()
     const numericGrade = numLevel(props.via.grade)
     const handleCompleted = async (e, newValue) => {
@@ -29,11 +35,32 @@ const CompletedButton = (props) => {
                 (v) => v.route._id !== props.via._id
             )
 
-            const updatedUser = {
+            let updatedUser = {
                 ...props.user,
                 completedRoutes: updatedCompleted,
             }
-
+            if (
+                isLevelDown(
+                    props.user.level,
+                    props.user.completedRoutes,
+                    props.via
+                )
+            ) {
+                updatedUser = {
+                    ...updatedUser,
+                    level: levelFind(updatedCompleted),
+                }
+                console.log('new level :', levelFind(updatedCompleted))
+                dispatch(
+                    setNotification({
+                        message: `:( level down`,
+                        severity: 'info',
+                    })
+                )
+                setTimeout(() => {
+                    dispatch(setNotification(null))
+                }, 2500)
+            }
             dispatch(updateUser(updatedUser))
         } else {
             const updatedCompleted = props.user.completedRoutes.concat({
@@ -61,8 +88,6 @@ const CompletedButton = (props) => {
             if (
                 isLevelUp(numericGrade, levelFind(props.user.completedRoutes))
             ) {
-                console.log('is Level up')
-                console.log('___________')
                 updatedUser = { ...updatedUser, level: numericGrade }
                 dispatch(
                     setNotification({
