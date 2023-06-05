@@ -37,6 +37,7 @@ loginRouter.post('/', async (request, response) => {
         username: username,
         name: user.name,
         id: user.id,
+        level: user.level,
         favoritesRegions: user.favoritesRegions,
         favoritesCrags: user.favoritesCrags,
         completedRoutes: user.completedRoutes,

@@ -17,9 +17,6 @@ const WipRoutes = (props) => {
     if (!user) {
         return null
     }
-    if (user) {
-        console.log(user.completedRoutes)
-    }
 
     return (
         <Paper>
@@ -36,7 +33,7 @@ const WipRoutes = (props) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {user.completedRoutes.map((element) => (
+                        {user.workInProg.map((element) => (
                             <TableRow key={`${element.route._id}`}>
                                 <TableCell>{element.route.name}</TableCell>
                                 <TableCell>{element.route.grade}</TableCell>

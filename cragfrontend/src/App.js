@@ -128,7 +128,10 @@ function App() {
                             element={
                                 <Box>
                                     <BreadCrumb></BreadCrumb>
-                                    <Vie cragsList={cragsList}></Vie>
+                                    <Vie
+                                        cragsList={cragsList}
+                                        gradeList={gradeList}
+                                    ></Vie>
                                 </Box>
                             }
                         />

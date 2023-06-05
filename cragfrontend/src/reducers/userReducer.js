@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, isRejected } from '@reduxjs/toolkit'
 import usersServices from '../services/users'
+
 const userSlice = createSlice({
     name: 'user',
     initialState: null,
@@ -31,10 +32,12 @@ export const updateUser = createAsyncThunk(
     'user/updateUser',
     async (object) => {
         console.log('updating!!')
+        console.log('recived user:', object)
         try {
             const response = await usersServices.updateFavs(object)
             return response.data
         } catch (e) {
+            console.log('erorrrr!', e)
             reject()
         }
     }

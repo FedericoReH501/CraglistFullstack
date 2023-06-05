@@ -2,10 +2,11 @@ import { ToggleButton, ToggleButtonGroup, Box } from '@mui/material'
 import FlashIcon from '@mui/icons-material/Bolt'
 import EyeIcon from '@mui/icons-material/RemoveRedEye'
 import BoyIcon from '@mui/icons-material/Boy'
-import usersServices from '../services/users'
 import { useDispatch } from 'react-redux'
-import { setUser, updateUser } from '../reducers/userReducer'
+import { updateUser } from '../reducers/userReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import gradeList, { numLevel, isLevelUp } from '../utils/gradeList'
+
 const CompletedButton = (props) => {
     const dispatch = useDispatch()
     const handleCompleted = async (e, newValue) => {
@@ -21,10 +22,14 @@ const CompletedButton = (props) => {
             }, 2500)
             return null
         }
+
         if (props.completed) {
+            console.log('already completed')
+            console.log('before: ', props.user.completedRoutes.length)
             const updatedCompleted = props.user.completedRoutes.filter(
                 (v) => v.route._id !== props.via._id
             )
+            console.log('after: ', updatedCompleted.length)
             const updatedUser = {
                 ...props.user,
                 completedRoutes: updatedCompleted,
