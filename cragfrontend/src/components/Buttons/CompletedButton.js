@@ -3,14 +3,14 @@ import FlashIcon from '@mui/icons-material/Bolt'
 import EyeIcon from '@mui/icons-material/RemoveRedEye'
 import BoyIcon from '@mui/icons-material/Boy'
 import { useDispatch } from 'react-redux'
-import { updateUser } from '../reducers/userReducer'
-import { setNotification } from '../reducers/notificationReducer'
+import { updateUser } from '../../reducers/userReducer'
+import { setNotification } from '../../reducers/notificationReducer'
 import gradeList, {
     numLevel,
     isLevelUp,
     levelFind,
     isLevelDown,
-} from '../utils/gradeList'
+} from '../../utils/gradeList'
 
 const CompletedButton = (props) => {
     console.log(gradeList[13])

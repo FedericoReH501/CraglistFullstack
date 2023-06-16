@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-const initialFilter = { show: false, range: [], rawRange: [0, 35] }
+import gradeList from '../utils/gradeList'
+const initialFilter = { show: false, range: gradeList, rawRange: [0, 35] }
 
 const filterSlice = createSlice({
     name: 'filter',

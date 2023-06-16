@@ -92,18 +92,17 @@ const Regions = () => {
         )
     }
     return (
-        <Paper elevation={5} sx={{ borderradius: 5, p: 2 }}>
+        <Paper elevation={0}>
             <Notification />
-            <Grid container spacing={2} my={2}>
+            <Grid container spacing={2}>
                 {regions.map((region) => (
                     <Grid
                         key={region}
                         item
-                        md={4}
+                        xs={12}
+                        lg={3}
                         sx={{
                             display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
                         }}
                     >
                         <Region

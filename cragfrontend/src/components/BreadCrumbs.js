@@ -1,7 +1,7 @@
 import PinDropIcon from '@mui/icons-material/PinDrop'
 import TourIcon from '@mui/icons-material/Tour'
 import TerrainOutlinedIcon from '@mui/icons-material/TerrainOutlined'
-import { Breadcrumbs, IconButton } from '@mui/material'
+import { Breadcrumbs, IconButton, useTheme } from '@mui/material'
 
 import { Link as RouterLink, useLocation, useParams } from 'react-router-dom'
 
@@ -10,6 +10,7 @@ function LinkRouter(props) {
 }
 
 const BreadCrumb = () => {
+    const theme = useTheme()
     const iconsList = [
         <TourIcon key={1} />,
         <PinDropIcon key={2} />,
@@ -21,7 +22,15 @@ const BreadCrumb = () => {
     const pathnames = location.pathname.split('/').filter((x) => x)
 
     return (
-        <Breadcrumbs aria-label="breadcrumb">
+        <Breadcrumbs
+            aria-label="breadcrumb"
+            sx={{
+                marginTop: 12,
+                [theme.breakpoints.down('md')]: {
+                    mx: 0,
+                },
+            }}
+        >
             {pathnames.map((value, index) => {
                 const last = index === pathnames.length - 1
 

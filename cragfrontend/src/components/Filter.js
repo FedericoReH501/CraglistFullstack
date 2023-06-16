@@ -47,14 +47,13 @@ const Filter = ({ gradeList }) => {
             mountOnEnter
             unmountOnExit
         >
-            <Box
+            <Paper
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     height: '30vh',
                 }}
-                component={Paper}
             >
                 <Box sx={{ flex: '1 1 100px', maxWidth: '80%' }}>
                     <Slider
@@ -75,7 +74,7 @@ const Filter = ({ gradeList }) => {
                         }}
                     ></Slider>
                 </Box>
-            </Box>
+            </Paper>
         </Slide>
     )
 }

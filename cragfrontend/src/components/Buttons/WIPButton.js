@@ -1,9 +1,9 @@
 import { ToggleButton } from '@mui/material'
 import SportsGymnasticsOutlinedIcon from '@mui/icons-material/SportsGymnasticsOutlined'
-import usersServices from '../services/users'
+import usersServices from '../../services/users'
 import { useDispatch } from 'react-redux'
-import { setUser, updateUser } from '../reducers/userReducer'
-import { setNotification } from '../reducers/notificationReducer'
+import { setUser, updateUser } from '../../reducers/userReducer'
+import { setNotification } from '../../reducers/notificationReducer'
 
 const WIPButton = (props) => {
     const dispatch = useDispatch()

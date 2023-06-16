@@ -5,13 +5,13 @@ import Crags from './components/Crags'
 import Filter from './components/Filter'
 import LoginForm from './components/LoginForm'
 import NewUser from './components/NewUser'
-import WipRoutes from './components/WipRoutes'
+import WipRoutes from './components/User/WipRoutes'
 import usersServices from './services/users'
 import { fetchCrags, setCrags } from './reducers/CragsReducer'
 import FalesiaScraper from './scraper/FalesiaScraper'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useMemo } from 'react'
-
+import Image from './svg/back.svg' // Import using relative path
 import {
     Routes,
     Route,
@@ -23,28 +23,17 @@ import { setUser } from './reducers/userReducer'
 import Vie from './components/Vie'
 import Navibar from './components/Navibar'
 import BreadCrumb from './components/BreadCrumbs'
-import UserShow from './components/UserShow'
-import CompletedRoutes from './components/CompletedRoutes'
-
+import UserShow from './components/User/UserShow'
+import CompletedRoutes from './components/User/CompletedRoutes'
+import gradeList from './utils/gradeList'
+import Hero from './components/Hero'
+import UserDrawer from './components/User/UserDrawe'
 function App() {
     const navigate = useNavigate()
     const cragsList = useSelector((state) => state.crags.cragsList)
     //const isLoading = useSelector((state) => state.crags.isLoading)
     //const error = useSelector((state) => state.crags.error)
     const dispatch = useDispatch()
-    const gradeList = useMemo(() => {
-        const array = []
-        for (let i = 4; i < 10; i++) {
-            array.push(`${i}a`)
-            array.push(`${i}a+`)
-            array.push(`${i}b`)
-            array.push(`${i}b+`)
-            array.push(`${i}c`)
-            array.push(`${i}c+`)
-        }
-        return array
-    }, [dispatch])
-
     useEffect(() => {
         const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'))
         const cragsList = JSON.parse(window.localStorage.getItem('cragsList'))
@@ -76,34 +65,41 @@ function App() {
                         element={
                             <Box>
                                 <Navibar></Navibar>
-                                {!location.length && (
-                                    <Paper>
-                                        <Button
-                                            onClick={() => navigate('/italy')}
-                                        >
-                                            Italy
-                                        </Button>
-                                    </Paper>
-                                )}
-
                                 <Outlet />
                             </Box>
                         }
                     >
+                        <Route index path="/home" element={<Hero></Hero>} />
+
                         <Route
-                            index
-                            path="/user"
+                            path="/user/"
                             element={
-                                <Box>
-                                    <UserShow></UserShow>
-                                    <CompletedRoutes />
-                                    <WipRoutes></WipRoutes>
+                                <Box sx={{ p: 24 }}>
+                                    <UserDrawer></UserDrawer>
+
+                                    <Outlet></Outlet>
                                 </Box>
                             }
-                        />
+                        >
+                            <Route
+                                idex
+                                path="/user/main"
+                                element={<UserShow></UserShow>}
+                            />
+                            <Route
+                                idex
+                                path="/user/completed"
+                                element={<CompletedRoutes></CompletedRoutes>}
+                            />
+                            <Route
+                                idex
+                                path="/user/wip"
+                                element={<WipRoutes></WipRoutes>}
+                            />
+                        </Route>
                         <Route
                             index
-                            path="/:nation"
+                            path="/finder/:nation"
                             element={
                                 <Box>
                                     <BreadCrumb></BreadCrumb>
@@ -113,7 +109,7 @@ function App() {
                         />
                         <Route
                             index
-                            path="/italy/:region"
+                            path="/finder/italy/:region"
                             element={
                                 <Box>
                                     <BreadCrumb></BreadCrumb>
@@ -124,7 +120,7 @@ function App() {
                         />
                         <Route
                             index
-                            path="italy/:region/:crag"
+                            path="/finder/italy/:region/:crag"
                             element={
                                 <Box>
                                     <BreadCrumb></BreadCrumb>

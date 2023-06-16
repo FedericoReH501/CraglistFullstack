@@ -9,15 +9,18 @@ import {
     Table,
     TableBody,
     Slide,
+    useTheme,
 } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
 
-import CompletedButton from './CompletedButton'
-import WIPButton from './WIPButton'
+import CompletedButton from './Buttons/CompletedButton'
+import WIPButton from './Buttons/WIPButton'
 import { useSelector } from 'react-redux'
 import Notification from './Notification'
+import { useState } from 'react'
 
 const Vie = (props) => {
+    const theme = useTheme()
     const selectedCrag = useParams().crag
     const user = useSelector((s) => s.user)
     const completedRoutes = user ? user.completedRoutes : []
@@ -52,28 +55,74 @@ const Vie = (props) => {
 
     if (crag) {
         return (
-            <Slide in={true} direction="up" mountOnEnter unmountOnExit>
-                <Paper>
+            <Slide in={true} direction="left" mountOnEnter unmountOnExit>
+                <Paper
+                    elevation={0}
+                    sx={{
+                        overflow: 'hidden',
+                        background: 'white',
+                        mx: 12,
+                        marginTop: 4,
+                        borderRadius: 4,
+                        [theme.breakpoints.down('md')]: {
+                            mx: 0,
+                        },
+                    }}
+                >
                     <Notification></Notification>
                     <Box>
                         {crag.sectors.map((s) => (
-                            <Box key={s.sectorName}>
-                                <Typography variant="h5">
-                                    {s.sectorName}
-                                </Typography>
-                                <TableContainer sx={{ maxHeight: 440 }}>
+                            <Box key={s._id}>
+                                <Box sx={{ py: 4 }}>
+                                    <Typography
+                                        variant="h6"
+                                        fontWeight="bold"
+                                        sx={{
+                                            color: theme.palette.primary.main,
+                                            fontWeight: 'bold',
+                                        }}
+                                    >
+                                        {s.sectorName}
+                                    </Typography>
+                                </Box>
+
+                                <TableContainer
+                                    sx={{
+                                        borderRadius: 4,
+                                        maxHeight: '50vh',
+                                        '& .MuiTableCell-head': {
+                                            color: theme.palette.primary.main,
+                                            fontWeight: 'bold',
+                                        },
+                                    }}
+                                >
                                     <Table stickyHeader>
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell> Name</TableCell>
+                                                <TableCell>
+                                                    <Typography
+                                                        variant="h6"
+                                                        fontWeight="bold"
+                                                    >
+                                                        Name
+                                                    </Typography>
+                                                </TableCell>
                                                 <TableCell> Grade</TableCell>
                                                 <TableCell>
-                                                    {' '}
-                                                    Work in Prog.
+                                                    <Typography
+                                                        variant="h6"
+                                                        fontWeight="bold"
+                                                    >
+                                                        Work in Prog.
+                                                    </Typography>
                                                 </TableCell>
                                                 <TableCell>
-                                                    {' '}
-                                                    Completed
+                                                    <Typography
+                                                        variant="h6"
+                                                        fontWeight="bold"
+                                                    >
+                                                        Completed
+                                                    </Typography>
                                                 </TableCell>
                                             </TableRow>
                                         </TableHead>

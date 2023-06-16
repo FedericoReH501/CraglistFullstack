@@ -9,6 +9,7 @@ import {
     Table,
     TableBody,
     Slide,
+    useTheme,
 } from '@mui/material'
 import { useSelector } from 'react-redux'
 import FlashIcon from '@mui/icons-material/Bolt'
@@ -41,6 +42,7 @@ const Icon = ({ type }) => {
 }
 
 const CompletedRoutes = (props) => {
+    const theme = useTheme()
     const user = useSelector((s) => s.user)
     if (!user) {
         return null
@@ -50,32 +52,50 @@ const CompletedRoutes = (props) => {
     }
 
     return (
-        <Paper>
+        <Paper
+            elevation={0}
+            sx={{
+                overflow: 'hidden',
+            }}
+        >
             <Box>
-                <Typography>Completed routes</Typography>
+                <Typography
+                    variant="h6"
+                    fontWeight="bold"
+                    sx={{
+                        color: theme.palette.primary.main,
+                        fontWeight: 'bold',
+                    }}
+                >
+                    Completed routes
+                </Typography>
             </Box>
-            <TableContainer sx={{ maxHeight: 440 }}>
+            <TableContainer
+                sx={{
+                    borderRadius: 4,
+                    maxHeight: '50vh',
+                    '& .MuiTableCell-head': {
+                        color: theme.palette.primary.main,
+                        fontWeight: 'bold',
+                    },
+                }}
+            >
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>
                             <TableCell> Name</TableCell>
                             <TableCell> Grade</TableCell>
                             <TableCell> Crag</TableCell>
-                            <TableCell
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                {' '}
-                                Completed
-                            </TableCell>
+                            <TableCell>Completed</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {user.completedRoutes.map((element) => (
                             <TableRow key={`${element.route._id}`}>
-                                <TableCell>{element.route.name}</TableCell>
+                                <TableCell>
+                                    {element.route.name}
+                                    {`${element.route._id}`}
+                                </TableCell>
                                 <TableCell>{element.route.grade}</TableCell>
                                 <TableCell>
                                     {element.crag.name} - {element.crag.region}

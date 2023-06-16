@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import LikeButton from './LikeButton'
+import LikeButton from './Buttons/LikeButton'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setRegion } from '../reducers/cragsFilterReducer'
@@ -66,20 +66,19 @@ const Region = (props) => {
 
     return (
         <div>
-            <Button
-                onClick={() => {
-                    navigate(`/italy/${props.region.toLowerCase()}`)
-                    findCrags(props.region)
-                }}
-            >
-                {props.region}
-            </Button>
-
             <LikeButton
                 type={props.region}
                 handleFav={handleFav}
                 isFavourite={isFavourite}
             />
+            <Button
+                onClick={() => {
+                    navigate(`/finder/italy/${props.region.toLowerCase()}`)
+                    findCrags(props.region)
+                }}
+            >
+                {props.region}
+            </Button>
         </div>
     )
 }

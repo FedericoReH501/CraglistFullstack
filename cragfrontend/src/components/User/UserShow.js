@@ -10,7 +10,7 @@ import {
     Slider,
     Grid,
 } from '@mui/material'
-import gradeList from '../utils/gradeList'
+import gradeList from '../../utils/gradeList'
 function stringToColor(string) {
     let hash = 0
     let i
@@ -44,7 +44,10 @@ const UserShow = () => {
     const user = useSelector((s) => s.user)
 
     return user ? (
-        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+        <Paper
+            elevation={0}
+            sx={{ p: 12, display: 'flex', flexDirection: 'column' }}
+        >
             <Card sx={{ width: '50vw' }}>
                 <CardHeader
                     title={user.username}
@@ -63,7 +66,7 @@ const UserShow = () => {
                         <Grid item sm={11} lg={6} xs={11}>
                             <Slider max={35} value={user.level} />
                         </Grid>
-                        <Grid item sx={12}>
+                        <Grid item xs={12}>
                             <Typography>{gradeList[user.level]}</Typography>
                         </Grid>
                     </Grid>
