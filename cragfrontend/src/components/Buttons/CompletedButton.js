@@ -43,6 +43,7 @@ const CompletedButton = (props) => {
         }
 
         if (isCompleted) {
+            setButtonValue(null)
             const updatedCompleted = props.user.completedRoutes.filter(
                 (v) => v.route._id !== props.via._id
             )
