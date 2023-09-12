@@ -2,6 +2,7 @@ import { ToggleButton, ToggleButtonGroup, Box } from '@mui/material'
 import FlashIcon from '@mui/icons-material/Bolt'
 import EyeIcon from '@mui/icons-material/RemoveRedEye'
 import BoyIcon from '@mui/icons-material/Boy'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateUser } from '../../reducers/userReducer'
 import { setNotification } from '../../reducers/notificationReducer'
@@ -15,6 +16,18 @@ import gradeList, {
 const CompletedButton = (props) => {
     const dispatch = useDispatch()
     const numericGrade = numLevel(props.via.grade)
+    const isRouteCompleted = (routeId) => {
+        let result = null
+        props.user.completedRoutes.forEach((completedRoute) => {
+            if (completedRoute.route._id === routeId) {
+                result = completedRoute.completionType
+            }
+        })
+        return result
+    }
+    const isCompleted = isRouteCompleted(props.via._id)
+    const [buttonValue, setButtonValue] = useState(isCompleted)
+
     const handleCompleted = async (e, newValue) => {
         if (!props.user) {
             dispatch(
@@ -29,7 +42,7 @@ const CompletedButton = (props) => {
             return null
         }
 
-        if (props.completed) {
+        if (isCompleted) {
             const updatedCompleted = props.user.completedRoutes.filter(
                 (v) => v.route._id !== props.via._id
             )
@@ -62,6 +75,7 @@ const CompletedButton = (props) => {
             }
             dispatch(updateUser(updatedUser))
         } else {
+            setButtonValue(newValue)
             const updatedCompleted = props.user.completedRoutes.concat({
                 crag: props.crag,
                 sector: props.sector,
@@ -98,6 +112,7 @@ const CompletedButton = (props) => {
                     dispatch(setNotification(null))
                 }, 2500)
             }
+
             dispatch(updateUser(updatedUser))
         }
     }
@@ -106,7 +121,7 @@ const CompletedButton = (props) => {
         <Box>
             <ToggleButtonGroup
                 exclusive
-                value={props.completed}
+                value={buttonValue}
                 onChange={handleCompleted}
             >
                 <ToggleButton value={'flash'}>
