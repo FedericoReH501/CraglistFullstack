@@ -21,7 +21,7 @@ import { useState } from 'react'
 function getCardinalDirection(exposure) {
     if (exposure) {
         const regex =
-            /\b(?:nord(?:[-/]?est)?|tutto|sole|ombra|est|sud(?:[-/]?est|[-/]?ovest)?|ovest(?:[-/]?est)?)(?:\s(?:nord(?:[-/]?est)?|est|sud(?:[-/]?est|[-/]?ovest)?|ovest(?:[-/]?est)?))*\b/gi
+            /\b(?:nord(?:[-/]?est)?|tutto|sole|ombra|pomeriggio|est|sud(?:[-/]?est|[-/]?ovest)?|ovest(?:[-/]?est)?)(?:\s(?:nord(?:[-/]?est)?|est|sud(?:[-/]?est|[-/]?ovest)?|ovest(?:[-/]?est)?))*\b/gi
 
         const matches = exposure.match(regex)
 
@@ -44,42 +44,46 @@ function getCardinalDirection(exposure) {
 const ExposureIcon = ({ exposure }) => {
     const cardinalDirection = getCardinalDirection(exposure)
     console.log('cardinal direction: ', cardinalDirection)
-    if (cardinalDirection === 'SUD') {
-        console.log('trueeeeeeeee')
-        return 'SEMPRE'
+
+    if (cardinalDirection === 'SUD' || cardinalDirection === 'SOLE/TUTTO') {
+        return 'SUD'
+    } else if (
+        cardinalDirection === 'SUD-OVEST' ||
+        cardinalDirection === 'SUD/SUD-OVEST' ||
+        cardinalDirection === 'OVEST SUD-OVEST/SOLE' ||
+        cardinalDirection === 'SUD OVEST/SOLE'
+    ) {
+        return 'SUD-OVEST'
     } else if (
         cardinalDirection === 'SUD-EST' ||
         cardinalDirection === 'SUD/SUD-EST'
     ) {
-        console.log('trueeeeeeeee')
-        return 'MATTINA PRESTO'
+        return 'SUD-EST'
     } else if (
-        cardinalDirection === 'SUD-OVEST' ||
-        cardinalDirection === 'SUD/SUD-OVEST'
+        cardinalDirection === 'OVEST' ||
+        cardinalDirection === 'OVEST/OMBRA'
     ) {
-        console.log('trueeeeeeeee')
-        return 'PRIMO POME'
-    } else if (cardinalDirection === 'EST' || cardinalDirection === 'SUD-EST') {
-        console.log('trueeeeeeeee')
-        return 'MATTINA'
+        return 'OVEST'
+    } else if (
+        cardinalDirection === 'EST' ||
+        cardinalDirection === 'EST/OMBRA' ||
+        cardinalDirection === 'EST/SOLE'
+    ) {
+        return 'EST'
     } else if (
         cardinalDirection === 'EST/NORD EST' ||
-        cardinalDirection === 'EST/NORD-EST'
+        cardinalDirection === 'EST/NORD-EST' ||
+        cardinalDirection === 'NORD-EST' ||
+        cardinalDirection === 'NORD/NORD/EST' ||
+        cardinalDirection === 'NORD EST'
     ) {
-        console.log('trueeeeeeeee')
-        return 'MATTINA PRESTO'
-    } else if (cardinalDirection === 'OVEST') {
-        console.log('trueeeeeeeee')
-        return 'POME'
+        return 'NORD-EST'
     } else if (cardinalDirection === 'NORD') {
-        console.log('trueeeeeeeee')
-        return 'MAI'
-    } else if (cardinalDirection === 'TUTTO') {
-        console.log('trueeeeeeeee')
-        return 'TUTTO'
+        return 'NORD'
     } else if (cardinalDirection === 'No Data') {
-        console.log('trueeeeeeeee')
         return 'NO DATA'
+    } else if (cardinalDirection === 'OMBRA/POMERIGGIO') {
+        return 'OMBRA AFTERNOON'
     } else {
         return 'da formattare'
     }
@@ -282,6 +286,7 @@ const Crags = () => {
                                                 <ExposureIcon
                                                     exposure={crag.exposure}
                                                 />
+                                                -{crag.exposure}
                                             </Typography>
                                         </TableCell>
                                         <TableCell>

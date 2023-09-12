@@ -100,12 +100,7 @@ const CompletedRoutes = (props) => {
                                 <TableCell>
                                     {element.crag.name} - {element.crag.region}
                                 </TableCell>
-                                <TableCell
-                                    sx={{
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                    }}
-                                >
+                                <TableCell>
                                     <Icon type={element.completionType}></Icon>
                                 </TableCell>
                             </TableRow>

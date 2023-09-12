@@ -13,7 +13,6 @@ import gradeList, {
 } from '../../utils/gradeList'
 
 const CompletedButton = (props) => {
-    console.log(gradeList[13])
     const dispatch = useDispatch()
     const numericGrade = numLevel(props.via.grade)
     const handleCompleted = async (e, newValue) => {

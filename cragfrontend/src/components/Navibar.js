@@ -58,7 +58,7 @@ const Navibar = () => {
                                     value={'home'}
                                 />
                                 <TabLink
-                                    to={'/finder'}
+                                    to={'/finder/italy'}
                                     label="Finder"
                                     value={'finder'}
                                 />

@@ -7,10 +7,12 @@ const HeroPaper = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.main,
     background: `url(${Image})`,
     backgroundSize: 'cover',
-    height: '100vh',
-
+    height: '60vh',
+    width: '80vw',
+    position: 'absolute',
+    top: 100,
     padding: theme.spacing(8),
-    paddingTop: theme.spacing(16),
+    paddingTop: theme.spacing(2),
 }))
 
 const HeroTextWelcome = styled(Typography)(({ theme }) => ({
@@ -23,7 +25,7 @@ const HeroTextDesc = styled(Typography)(({ theme }) => ({
     color: theme.palette.primary.main,
 
     fontWeight: 'bold',
-    fontSize: '1.5rem',
+    fontSize: '1rem',
 }))
 const Hero = () => {
     const navigate = useNavigate()
