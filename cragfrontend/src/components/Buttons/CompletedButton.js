@@ -16,16 +16,7 @@ import gradeList, {
 const CompletedButton = (props) => {
     const dispatch = useDispatch()
     const numericGrade = numLevel(props.via.grade)
-    const isRouteCompleted = (routeId) => {
-        let result = null
-        props.user.completedRoutes.forEach((completedRoute) => {
-            if (completedRoute.route._id === routeId) {
-                result = completedRoute.completionType
-            }
-        })
-        return result
-    }
-    const isCompleted = isRouteCompleted(props.via._id)
+    const isCompleted = props.isCompleted
     const [buttonValue, setButtonValue] = useState(isCompleted)
 
     const handleCompleted = async (e, newValue) => {

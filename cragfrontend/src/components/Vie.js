@@ -25,20 +25,11 @@ const Vie = (props) => {
     const user = useSelector((s) => s.user)
     const completedRoutes = user ? user.completedRoutes : []
     const workInProg = user ? user.workInProg : []
-    const routeIsCompleted = (route) => {
-        if (
-            completedRoutes.find((element) => element.route._id === route._id)
-        ) {
-            return true
-        }
-        return false
-    }
-
-    const isCompleted = (via) => {
+    const isRouteCompleted = (routeId) => {
         let result = null
-        completedRoutes.forEach((element) => {
-            if (element.route._id === via._id) {
-                result = element.completionType
+        completedRoutes.forEach((completedRoute) => {
+            if (completedRoute.route._id === routeId) {
+                result = completedRoute.completionType
             }
         })
         return result
@@ -139,8 +130,8 @@ const Vie = (props) => {
                                                     </TableCell>
                                                     <TableCell>
                                                         <WIPButton
-                                                            isCompleted={routeIsCompleted(
-                                                                v
+                                                            isCompleted={isRouteCompleted(
+                                                                v._id
                                                             )}
                                                             isWip={isWIP(v)}
                                                             user={user}
@@ -152,8 +143,8 @@ const Vie = (props) => {
                                                     <TableCell>
                                                         <CompletedButton
                                                             isWip={isWIP(v)}
-                                                            completed={isCompleted(
-                                                                v
+                                                            isCompleted={isRouteCompleted(
+                                                                v._id
                                                             )}
                                                             user={user}
                                                             crag={crag._id}
