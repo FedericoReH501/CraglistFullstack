@@ -92,10 +92,7 @@ const CompletedRoutes = (props) => {
                     <TableBody>
                         {user.completedRoutes.map((element) => (
                             <TableRow key={`${element.route._id}`}>
-                                <TableCell>
-                                    {element.route.name}
-                                    {`${element.route._id}`}
-                                </TableCell>
+                                <TableCell>{element.route.name}</TableCell>
                                 <TableCell>{element.route.grade}</TableCell>
                                 <TableCell>
                                     {element.crag.name} - {element.crag.region}

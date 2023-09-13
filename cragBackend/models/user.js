@@ -50,6 +50,10 @@ const userSchema = Schema({
                 type: String,
                 enum: ['onSight', 'flash', 'normal'],
             },
+            completionDate: {
+                type: Date,
+                default: Date.now,
+            },
         },
     ],
     workInProg: [

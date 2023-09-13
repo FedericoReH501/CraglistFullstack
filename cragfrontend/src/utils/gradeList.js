@@ -41,11 +41,12 @@ export const numLevel = (stringLv) => {
 }
 
 export const isLevelUp = (routeLv, userLv) => {
-    console.log('level up: ', routeLv)
-    console.log('user Level', userLv)
     return routeLv > userLv ? true : false
 }
 export const isLevelDown = (userLv, completed, route) => {
+    if (userLv === route.grade) {
+        return false
+    }
     const list = completed.filter((e) => e.route._id !== route._id)
     const completedGrade = completedGradeList(list).sort()
     console.log(completedGrade.slice(-1), '-vs-', userLv)

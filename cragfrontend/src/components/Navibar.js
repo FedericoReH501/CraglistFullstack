@@ -7,12 +7,15 @@ import {
     Typography,
     Tabs,
     Tab,
+    useMediaQuery,
+    LinearProgress,
 } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { setUser } from '../reducers/userReducer'
 import { styled } from '@mui/system'
 import { useState } from 'react'
+import gradeList from '../utils/gradeList'
 
 const MyAppBar = styled(AppBar)(({ theme }) => ({
     color: theme.palette.primary.main,
@@ -30,6 +33,8 @@ const TabLink = (props) => {
 }
 
 const Navibar = () => {
+    const isSmallScreen = useMediaQuery('(max-width:600px)')
+
     const user = useSelector((s) => s.user)
 
     const location = useLocation()
@@ -47,10 +52,10 @@ const Navibar = () => {
     }
     return (
         <Box sx={{ position: 'absolute', zIndex: 10 }}>
-            <MyAppBar elevation={5}>
+            <MyAppBar elevation={2}>
                 <Toolbar>
                     <Grid container>
-                        <Grid item xs={6} lg={6}>
+                        <Grid item xs={9} lg={3}>
                             <Tabs value={value} onChange={handleChange}>
                                 <TabLink
                                     to={'/home'}
@@ -71,26 +76,50 @@ const Navibar = () => {
                         </Grid>
                         <Grid
                             item
-                            xs={6}
-                            lg={6}
-                            sx={{ display: 'flex', justifyContent: 'flex-end' }}
+                            xs={3}
+                            lg={9}
+                            sx={{
+                                display: 'flex',
+                                border: 'solid 1px',
+                                justifyContent: 'flex-end',
+                                ...(isSmallScreen && { display: 'none' }), // Conditionally hide on small screens
+                            }}
                         >
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    alignItems: 'right',
-                                    justifyContent: 'flex-end',
-                                }}
-                            >
-                                {user === null ? (
-                                    <Button
-                                        color="inherit"
-                                        onClick={() => navigate('/login')}
+                            {user === null ? (
+                                <Button
+                                    color="inherit"
+                                    onClick={() => navigate('/login')}
+                                >
+                                    login
+                                </Button>
+                            ) : (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        border: 'solid 1px',
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            flexBasis: '50%',
+                                            flexGrow: 1,
+                                            border: 'solid 1px',
+                                        }}
                                     >
-                                        login
-                                    </Button>
-                                ) : (
-                                    <Box>
+                                        <LinearProgress
+                                            variant="determinate"
+                                            value={user.level}
+                                            sx={{ width: '200px' }}
+                                        />
+                                    </Box>
+                                    <Box
+                                        sx={{
+                                            flexGrow: 1,
+                                            flexBasis: '50%',
+                                            border: 'solid 1px',
+                                        }}
+                                    >
                                         <Typography component={'div'}>
                                             {user.name}
                                         </Typography>
@@ -101,8 +130,8 @@ const Navibar = () => {
                                             logout
                                         </Button>
                                     </Box>
-                                )}
-                            </Box>
+                                </Box>
+                            )}
                         </Grid>
                     </Grid>
                 </Toolbar>

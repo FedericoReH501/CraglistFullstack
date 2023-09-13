@@ -9,6 +9,7 @@ import {
     CardHeader,
     Slider,
     Grid,
+    LinearProgress,
 } from '@mui/material'
 import gradeList from '../../utils/gradeList'
 function stringToColor(string) {
@@ -58,15 +59,23 @@ const UserShow = () => {
                     }
                 />
                 <CardContent>
-                    <Grid container>
-                        <Grid item sm={1} xs={1}>
+                    <Grid container sx={{ alignItems: 'center' }}>
+                        <Grid item sm={1} xs={1} lg={1}>
                             <Typography variant="body2">Lv:</Typography>
                         </Grid>
 
-                        <Grid item sm={11} lg={6} xs={11}>
-                            <Slider max={35} value={user.level} />
+                        <Grid item sm={11} lg={10} xs={11}>
+                            <LinearProgress
+                                variant="determinate"
+                                value={user.level}
+                            />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid
+                            item
+                            xs={12}
+                            lg={1}
+                            sx={{ justifyContent: 'end' }}
+                        >
                             <Typography>{gradeList[user.level]}</Typography>
                         </Grid>
                     </Grid>
