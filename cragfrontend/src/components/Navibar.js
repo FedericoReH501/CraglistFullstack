@@ -8,7 +8,7 @@ import {
     Tabs,
     Tab,
     useMediaQuery,
-    LinearProgress,
+    Slider,
 } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -80,7 +80,6 @@ const Navibar = () => {
                             lg={9}
                             sx={{
                                 display: 'flex',
-                                border: 'solid 1px',
                                 justifyContent: 'flex-end',
                                 ...(isSmallScreen && { display: 'none' }), // Conditionally hide on small screens
                             }}
@@ -95,34 +94,36 @@ const Navibar = () => {
                             ) : (
                                 <Box
                                     sx={{
+                                        width: '100%',
                                         display: 'flex',
                                         alignItems: 'center',
-                                        border: 'solid 1px',
                                     }}
                                 >
                                     <Box
                                         sx={{
                                             flexBasis: '50%',
                                             flexGrow: 1,
-                                            border: 'solid 1px',
+                                            px: 3,
+                                            display: 'flex',
+                                            alignItems: 'center',
                                         }}
                                     >
-                                        <LinearProgress
-                                            variant="determinate"
-                                            value={user.level}
-                                            sx={{ width: '200px' }}
-                                        />
+                                        <Typography>{user.name}</Typography>
+                                        <Typography px={3}>LV: </Typography>
+                                        <Slider max={35} value={user.level} />
+                                        <Typography px={3}>
+                                            {gradeList[user.level]}
+                                        </Typography>
                                     </Box>
                                     <Box
                                         sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'flex-end',
                                             flexGrow: 1,
                                             flexBasis: '50%',
-                                            border: 'solid 1px',
                                         }}
                                     >
-                                        <Typography component={'div'}>
-                                            {user.name}
-                                        </Typography>
                                         <Button
                                             color="inherit"
                                             onClick={logOut}
