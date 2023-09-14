@@ -29,6 +29,7 @@ import gradeList from './utils/gradeList'
 import Hero from './components/Hero'
 import UserDrawer from './components/User/UserDrawe'
 import Chart from './components/User/Chart'
+import Map from './components/Map'
 function App() {
     const navigate = useNavigate()
     const cragsList = useSelector((state) => state.crags.cragsList)
@@ -71,6 +72,7 @@ function App() {
                         }
                     >
                         <Route index path="/home" element={<Hero></Hero>} />
+                        <Route index path="/map" element={<Map></Map>} />
 
                         <Route
                             path="/user/"

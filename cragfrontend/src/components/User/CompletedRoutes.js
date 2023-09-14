@@ -50,7 +50,13 @@ const CompletedRoutes = (props) => {
     if (user) {
         console.log(user.completedRoutes)
     }
-
+    if (user.completedRoutes.length === 0) {
+        return (
+            <Typography>
+                No Completed Routes yet, Close this App and go Climb!!
+            </Typography>
+        )
+    }
     return (
         <Paper
             elevation={0}

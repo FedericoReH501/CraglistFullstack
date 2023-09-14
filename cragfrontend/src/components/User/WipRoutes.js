@@ -19,7 +19,13 @@ const WipRoutes = (props) => {
     if (!user) {
         return null
     }
-
+    if (user.workInProg.length === 0) {
+        return (
+            <Typography>
+                No Completed Routes yet, Close this App and go Climb!!
+            </Typography>
+        )
+    }
     return (
         <Paper
             elevation={0}
