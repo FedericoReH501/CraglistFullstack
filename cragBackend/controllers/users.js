@@ -50,7 +50,7 @@ usersRouter.post('/', async (request, response) => {
 })
 
 usersRouter.put('/:id', userExtractor, async (request, response) => {
-    console.log('RECIVED!!!!!!')
+    console.log('RECIEVED!!!!!!')
 
     const userId = request.params.id
 

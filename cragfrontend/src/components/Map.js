@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet'
 import { Box } from '@mui/material'
 import 'leaflet/dist/leaflet.css'
+import { useNavigate } from 'react-router-dom'
 const regions = [
     {
         name: 'Lombardy',
@@ -18,7 +19,7 @@ const regions = [
 
 function Map({ onSelectRegion }) {
     const [italyRegions, setItalyRegions] = useState(null)
-
+    const navigate = useNavigate()
     useEffect(() => {
         // Load the GeoJSON file at runtime
         fetch('/italy-with-regions_1458.geojson')
@@ -27,24 +28,41 @@ function Map({ onSelectRegion }) {
             .catch((error) => console.error('Error loading GeoJSON:', error))
     }, [])
 
-    const [selectedRegion, setSelectedRegion] = useState(null)
-
     const handleRegionClick = (e, region) => {
         setSelectedRegion(region)
         onSelectRegion(region)
     }
-    const regions = [
-        {
-            name: 'Lombardy',
-            coords: [
-                [45.651937, 8.84673],
-                [41.602037, 8.978841],
-                [45.522071, 15.190989],
-                [41.456407, 15.171758],
-                // Add more coordinates here to complete the polygon
-            ],
-        },
-    ]
+
+    const regionStyle = {
+        fillColor: 'lightblue',
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        fillOpacity: 0.4,
+    }
+
+    // Define a function to handle interactions with each region
+    function onEachFeature(feature, layer) {
+        if (feature.properties && feature.properties.name) {
+            layer.on('mouseover', () => {
+                layer.setStyle({
+                    weight: 3,
+                    fillOpacity: 0.8, // Adjust the weight or any other styles to highlight
+                    // Adjust the color as needed
+                })
+            })
+
+            // Reset the style when the mouse leaves
+            layer.on('mouseout', () => {
+                layer.setStyle(regionStyle) // Reset to the original style defined earlier
+            })
+            layer.on('click', () => {
+                navigate(
+                    `/finder/italy/${feature.properties.name.toLowerCase()}`
+                )
+            })
+        }
+    }
     if (italyRegions) {
         return (
             <Box py={12} sx={{ width: '40vw', height: '55vw', margin: 'auto' }}>
@@ -66,19 +84,5 @@ function Map({ onSelectRegion }) {
     }
 }
 // Define the style for the regions
-const regionStyle = {
-    fillColor: 'lightblue',
-    weight: 2,
-    opacity: 1,
-    color: 'white',
-    fillOpacity: 0.4,
-}
-
-// Define a function to handle interactions with each region
-function onEachFeature(feature, layer) {
-    if (feature.properties && feature.properties.name) {
-        layer.bindPopup(feature.properties.name)
-    }
-}
 
 export default Map

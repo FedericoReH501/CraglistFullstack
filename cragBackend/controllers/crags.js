@@ -12,10 +12,7 @@ cragsRouter.get('/', async (request, response) => {
     response.status(200).json(crags)
 })
 
-cragsRouter.get('/:region', async (request, response) => {
-    const crags = await Crag.find({ region: request.params.region })
-    response.status(200).json(crags)
-})
+cragsRouter.get('/region', async (request, response) => {})
 
 cragsRouter.post('/', async (request, response) => {
     const {

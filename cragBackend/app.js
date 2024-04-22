@@ -1,17 +1,23 @@
 const express = require('express')
 require('express-async-errors')
+
 const app = express()
+
 const middleware = require('./utils/middleware')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 const cragsRouter = require('./controllers/crags')
+
 const mongoose = require('mongoose')
 const cors = require('cors')
+
 const logger = require('./utils/logger')
 const config = require('./utils/config')
 const falesiaRouter = require('./controllers/falesia')
+
 const mongoUrl = config.MONGO_URI
 const bodyParser = require('body-parser')
+
 mongoose.set('strictQuery', false)
 mongoose
     .connect(mongoUrl)
